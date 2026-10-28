@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<script src="./image-slot.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E8EEF7;font-family:'Tajawal','IBM Plex Sans Arabic',system-ui,sans-serif;color:#1F2937;-webkit-font-smoothing:antialiased}
+a{color:#1554A8}a:hover{color:#0B2545}
+button{font-family:inherit}
+[dir=rtl] *{letter-spacing:0 !important}
+@keyframes sweep{0%{top:12%}100%{top:84%}}
+@keyframes pulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.8);opacity:0}}
+</style>
+</helmet>
+<div style="height:100vh;display:flex;gap:48px;align-items:center;justify-content:center;padding:16px 24px;overflow:hidden;box-sizing:border-box">
+
+<aside style="display:{{ fit.aside }};max-width:340px;flex:1 1 280px;min-width:0;max-height:calc(100vh - 32px);overflow-y:auto;flex-direction:column;gap:18px">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;letter-spacing:.08em;color:{{ brand.primary }};text-transform:uppercase">Prototype · Mobile web · WebXR</div>
+    <h1 style="margin:0;font-size:34px;line-height:1.05;font-weight:800;letter-spacing:-.02em;color:#0B2545">Home Wi‑Fi Check</h1>
+    <p style="margin:0;font-size:16px;line-height:1.5;color:#4B5563;text-wrap:pretty">Scan rooms with the phone camera, see coverage in AR and 3D, get an AI diagnosis and a guided fix — in the browser, no app.</p>
+  </div>
+  <nav style="display:flex;flex-direction:column;gap:2px">
+    <sc-for list="{{ flow }}" as="f" hint-placeholder-count="9">
+      <button onClick="{{ f.onClick }}" style="display:flex;align-items:center;gap:14px;width:100%;height:34px;padding:0 14px;border:none;border-radius:10px;white-space:nowrap;background:{{ f.bg }};color:{{ f.fg }};font-size:15px;font-weight:600;text-align:left;cursor:pointer">
+        <span style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ f.numFg }}">{{ f.n }}</span>
+        <span>{{ f.label }}</span>
+      </button>
+    </sc-for>
+  </nav>
+  <div style="display:flex;flex-direction:column;gap:10px;padding-top:16px;border-top:1px solid #D3DAE3">
+    <div style="font-size:13px;font-weight:700;color:#0B2545">Every number is labelled</div>
+    <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:#4B5563"><span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 7px;border-radius:999px;background:#E3ECFD;color:#1D4FBF">MEASURED</span>router, line test, this phone</div>
+    <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:#4B5563"><span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 7px;border-radius:999px;background:#FFF1D6;color:#8A5A00">ESTIMATED</span>heatmaps, before/after</div>
+    <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:#4B5563"><span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 7px;border-radius:999px;background:#E6E9F0;color:#0B2545">AI</span>detections &amp; inferences</div>
+  </div>
+  <div style="font-size:13px;color:#6B7280;line-height:1.5">Scenario: <b style="color:#0B2545">{{ scenarioLabel }}</b> — switch in Tweaks.</div>
+</aside>
+
+<div style="transform:scale({{ fit.s }});transform-origin:50% 0;margin-bottom:{{ fit.mb }};margin-right:{{ fit.mx }};margin-left:{{ fit.mx }};width:390px;height:844px;flex:none;border-radius:58px;background:#0A0F18;padding:11px;box-sizing:content-box;box-shadow:0 30px 80px rgba(11,37,69,.28)">
+<div dir="{{ dir }}" lang="{{ lang }}" style="position:relative;width:390px;height:844px;border-radius:47px;overflow:hidden;background:#F5F7FA">
+
+  <video ref="{{ setVideoEl }}" autoplay="" muted="" playsinline="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:{{ camDisplay }};background:#000"></video>
+  <div style="position:absolute;inset:0;display:{{ demoDisplay }};background:radial-gradient(120% 80% at 40% 30%,#F3EFE8 0%,#E2DBD0 55%,#CFC6B8 100%);overflow:hidden">
+    <div style="position:absolute;left:-40%;right:-40%;bottom:-10%;height:60%;transform:perspective(500px) rotateX(62deg);background-image:repeating-linear-gradient(90deg,rgba(60,50,40,.10) 0 1px,transparent 1px 48px),repeating-linear-gradient(0deg,rgba(60,50,40,.10) 0 1px,transparent 1px 48px)"></div>
+    <div style="position:absolute;left:0;right:0;top:0;height:42%;background:linear-gradient(180deg,#FAF8F4,#ECE7DF)"></div>
+    <div style="position:absolute;left:16px;bottom:236px;font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:rgba(40,30,20,.5);letter-spacing:.06em">{{ t.demoFeed }}</div>
+  </div>
+
+  <div style="position:absolute;top:0;left:0;right:0;height:47px;z-index:59;background:{{ headerBg }};border-bottom:3px solid {{ headerLine }};pointer-events:none"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:47px;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:0 32px;font-size:16px;font-weight:700;color:{{ statusColor }};pointer-events:none">
+    <span>9:41</span><span style="font-size:13px;letter-spacing:.04em;white-space:nowrap">5G ▮▮▮</span>
+  </div>
+
+  <sc-if value="{{ is.lang }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;padding-top:47px;display:flex;flex-direction:column;background:#F5F7FA;color:#0B2545">
+      <div style="flex:1;padding:24px 24px;display:flex;flex-direction:column;justify-content:center;gap:32px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <img src="assets/logo-full.png" alt="Omantel · عمانتل" style="height:64px;width:auto;display:block;align-self:flex-start">
+          <span style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;letter-spacing:.08em;color:{{ brand.accent }}">LANGUAGE · اللغة</span>
+          <h2 style="margin:0;font-size:32px;line-height:1.1;font-weight:800;letter-spacing:-.02em">Choose your language</h2>
+          <h2 dir="rtl" style="margin:0;font-size:30px;line-height:1.3;font-weight:700;font-family:'IBM Plex Sans Arabic',sans-serif;text-align:left">اختر لغتك</h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <button onClick="{{ pickEn }}" style="display:flex;justify-content:space-between;align-items:center;min-height:76px;padding:0 20px;border-radius:16px;border:none;background:{{ brand.primary }};color:#fff;cursor:pointer"><span style="flex:1;min-width:0;text-align:start;white-space:nowrap;display:flex;flex-direction:column;align-items:flex-start;gap:2px"><span style="font-size:20px;font-weight:800">English</span><span style="font-size:13px;color:#DCE6F5">Continue in English</span></span><span style="font-size:22px">→</span></button>
+          <button onClick="{{ pickAr }}" dir="rtl" style="display:flex;justify-content:space-between;align-items:center;min-height:76px;padding:0 20px;border-radius:16px;border:1.5px solid #C9D3E3;background:transparent;color:#0B2545;cursor:pointer;font-family:'IBM Plex Sans Arabic',sans-serif"><span style="flex:1;min-width:0;text-align:start;white-space:nowrap;display:flex;flex-direction:column;align-items:flex-start;gap:2px"><span style="font-size:22px;font-weight:700">العربية</span><span style="font-size:13px;color:#4B5563">المتابعة بالعربية</span></span><span style="font-size:22px">←</span></button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 01 WELCOME -->
+  <sc-if value="{{ is.welcome }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:78px;padding-top:47px;display:flex;flex-direction:column;background:#F5F7FA">
+      <div style="flex:1;overflow:auto;padding:16px 22px;display:flex;flex-direction:column;gap:20px">
+        <sc-if value="{{ isEnLogo }}" hint-placeholder-val="{{ true }}"><img src="assets/logo-en.png" alt="Omantel" style="height:30px;width:auto;display:block;align-self:flex-start"></sc-if><sc-if value="{{ isArLogo }}" hint-placeholder-val="{{ false }}"><img src="assets/logo-ar.png" alt="عمانتل" style="height:34px;width:auto;display:block;align-self:flex-start"></sc-if>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:14px;font-weight:800;color:#0B2545;white-space:nowrap">{{ t.brand }}</span>
+          <div style="display:flex;gap:8px;align-items:center"><sc-if value="{{ routerLine }}" hint-placeholder-val="{{ false }}"><span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;white-space:nowrap;flex:none;padding:4px 8px;border-radius:999px;background:#E3ECFD;color:#1D4FBF">{{ routerLine }}</span></sc-if><button onClick="{{ switchLang }}" style="flex:none;height:32px;padding:0 10px;border-radius:8px;border:1.5px solid #C9D3E3;background:#fff;color:#0B2545;font-size:13px;font-weight:700;white-space:nowrap;cursor:pointer">{{ t.switchLang }}</button></div>
+        </div>
+        <div style="position:relative;border-radius:20px;overflow:hidden;background:#0B2545;aspect-ratio:5/4">
+          <div style="width:100%;height:100%;background-size:cover;background-position:center;opacity:.95;background-image:{{ mapCurrentBg }}"></div>
+          <div style="position:absolute;left:12px;bottom:12px;font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;white-space:nowrap;flex:none;padding:4px 8px;border-radius:999px;background:#FFF1D6;color:#8A5A00">{{ t.exampleCov }}</div>
+        </div>
+        <h2 style="margin:0;padding-inline-start:14px;border-inline-start:6px solid {{ brand.primary }};font-size:28px;line-height:1.12;font-weight:800;letter-spacing:-.02em;color:#0B2545;text-wrap:pretty">{{ t.welcomeH }}</h2>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;gap:14px;align-items:flex-start"><span style="flex:none;width:28px;height:28px;border-radius:8px;background:#0B2545;color:#fff;font:700 13px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;display:flex;align-items:center;justify-content:center">1</span><span style="font-size:15px;line-height:1.4;color:#374151">{{ t.w1 }}</span></div>
+          <div style="display:flex;gap:14px;align-items:flex-start"><span style="flex:none;width:28px;height:28px;border-radius:8px;background:#0B2545;color:#fff;font:700 13px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;display:flex;align-items:center;justify-content:center">2</span><span style="font-size:15px;line-height:1.4;color:#374151">{{ t.w2 }}</span></div>
+          <div style="display:flex;gap:14px;align-items:flex-start"><span style="flex:none;width:28px;height:28px;border-radius:8px;background:#0B2545;color:#fff;font:700 13px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;display:flex;align-items:center;justify-content:center">3</span><span style="font-size:15px;line-height:1.4;color:#374151">{{ t.w3 }}</span></div>
+        </div>
+      </div>
+      <div style="padding:12px 22px 14px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:14px;font-weight:700;color:#0B2545">{{ t.whatScan }}</div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+          <button onClick="{{ startRoom }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px;min-height:76px;border:none;border-radius:20px;background:{{ brand.primary }};box-shadow:0 10px 26px color-mix(in srgb,{{ brand.primary }} 30%,transparent);color:#fff;text-align:left;cursor:pointer"><span style="width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,rgba(255,255,255,.35),rgba(255,255,255,.08));box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -3px 6px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg></span><span style="font-size:16px;font-weight:800">{{ t.scanRoom }}</span><span style="font-size:13px;color:#D6F5F2">{{ t.scanRoomSub }}</span></button>
+          <button onClick="{{ startDevice }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px;min-height:76px;border:none;border-radius:20px;background:#0B2545;box-shadow:0 10px 26px rgba(11,37,69,.25);color:#fff;text-align:left;cursor:pointer"><span style="width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,rgba(255,255,255,.35),rgba(255,255,255,.08));box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -3px 6px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h16v5H4zM8 17h.01M12 17h.01M7 14l-2-7M17 14l2-7M9.5 10a4 4 0 0 1 5 0"></path></svg></span><span style="font-size:16px;font-weight:800">{{ t.scanDevice }}</span><span style="font-size:13px;color:#C3D2EA">{{ t.scanDeviceSub }}</span></button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 02 IDENTIFY -->
+  <sc-if value="{{ is.identify }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;padding-top:47px;display:flex;flex-direction:column;background:#F5F7FA">
+      <div style="padding:8px 12px"><button onClick="{{ nav.welcome }}" style="height:44px;padding:0 10px;border:none;background:none;white-space:nowrap;font-size:15px;font-weight:600;color:#0B2545;cursor:pointer">{{ t.back }}</button></div>
+      <div style="flex:1;overflow:auto;padding:4px 22px 16px;display:flex;flex-direction:column;gap:18px">
+        <h2 style="margin:0;padding-inline-start:14px;border-inline-start:6px solid {{ brand.primary }};font-size:28px;line-height:1.12;font-weight:800;letter-spacing:-.02em;color:#0B2545">{{ t.idH }}</h2>
+        <p style="margin:0;font-size:16px;line-height:1.5;color:#4B5563;text-wrap:pretty">{{ t.idP }}</p>
+        <label style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:13px;font-weight:700;color:#0B2545">{{ t.mobile }}</span>
+          <div dir="ltr" style="display:flex;align-items:center;gap:10px;height:56px;padding:0 14px;border-radius:20px;background:#fff;border:1.5px solid {{ ident.border }}">
+            <span style="font:600 16px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#6B7280">+44</span>
+            <input type="tel" inputmode="tel" autocomplete="tel" placeholder="07700 900123" value="{{ phone }}" onChange="{{ onPhone }}" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font:600 18px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#1F2937">
+          </div>
+        </label>
+        <sc-if value="{{ ident.err }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:-8px;font-size:14px;color:#B02A30">{{ ident.err }}</div>
+        </sc-if>
+        <sc-if value="{{ ident.showDemo }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ ident.useDemo }}" style="align-self:flex-start;height:44px;margin-top:-10px;padding:0;border:none;background:none;font-size:14px;font-weight:700;color:{{ brand.primary }};cursor:pointer">{{ t.useDemoNum }}</button>
+        </sc-if>
+        <sc-if value="{{ ident.loading }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:15px;color:#6B7280">{{ t.lookingUp }}</div>
+        </sc-if>
+        <sc-if value="{{ ident.found }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;border-radius:22px;background:#fff;border-color:#E3EAF4;border:1px solid #E5E7EB;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #EEF2F8"><span style="font-size:14px;font-weight:800;color:#1F8A57">{{ t.found }}</span><span style="font-size:12px;color:#6B7280">{{ t.fromISP }}</span></div>
+            <sc-for list="{{ ident.rows }}" as="r" hint-placeholder-count="6">
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid #EEF2F8"><span style="font-size:14px;color:#6B7280">{{ r.label }}</span><span style="font-size:14px;font-weight:700;text-align:right;color:{{ r.color }};direction:ltr;unicode-bidi:isolate">{{ r.value }}</span></div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="font-size:13px;line-height:1.45;color:#6B7280">{{ t.idPrivacy }}</div>
+      </div>
+      <div style="padding:12px 22px 34px;display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ ident.primary }}" style="height:54px;border:none;border-radius:999px;background:{{ ident.primaryBg }};color:#fff;font-size:17px;font-weight:700;cursor:pointer">{{ ident.primaryLabel }}</button>
+        <sc-if value="{{ ident.found }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ ident.reset }}" style="height:48px;border:1.5px solid #C9D3E3;border-radius:999px;background:#FFFFFF;color:#0B2545;font-size:15px;font-weight:600;cursor:pointer">{{ t.notMe }}</button>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 02 PERMISSION -->
+  <sc-if value="{{ is.permission }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;padding-top:47px;display:flex;flex-direction:column;background:#F5F7FA">
+      <div style="padding:8px 12px"><button onClick="{{ nav.welcome }}" style="height:44px;padding:0 10px;border:none;background:none;white-space:nowrap;font-size:15px;font-weight:600;color:#0B2545;cursor:pointer">{{ t.back }}</button></div>
+      <div style="flex:1;overflow:auto;padding:4px 22px 16px;display:flex;flex-direction:column;gap:20px">
+        <div style="width:64px;height:64px;border-radius:18px;background:#0B2545;display:flex;align-items:center;justify-content:center"><div style="width:30px;height:22px;border:3px solid {{ brand.accent }};border-radius:6px;position:relative"><div style="position:absolute;left:8px;top:4px;width:8px;height:8px;border-radius:50%;border:3px solid {{ brand.accent }}"></div></div></div>
+        <h2 style="margin:0;padding-inline-start:14px;border-inline-start:6px solid {{ brand.primary }};font-size:28px;line-height:1.12;font-weight:800;letter-spacing:-.02em;color:#0B2545">{{ t.camH }}</h2>
+        <div style="display:flex;flex-direction:column;border-radius:22px;background:#fff;border-color:#E3EAF4;border:1px solid #E5E7EB;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+          <div style="display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid #EEF2F8;font-size:15px;color:#374151"><span style="color:#1F9D63;font-weight:800">✓</span>{{ t.cam1 }}</div>
+          <div style="display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid #EEF2F8;font-size:15px;color:#374151"><span style="color:#1F9D63;font-weight:800">✓</span>{{ t.cam2 }}</div>
+          <div style="display:flex;gap:12px;padding:14px 16px;font-size:15px;color:#374151"><span style="color:#1F9D63;font-weight:800">✓</span>{{ t.cam3 }}</div>
+        </div>
+        <sc-if value="{{ camErr }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:14px;color:#B02A30;line-height:1.4">{{ camErr }}</div>
+        </sc-if>
+      </div>
+      <div style="padding:12px 22px 34px;display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ requestCam }}" style="height:54px;border:none;border-radius:999px;background:{{ brand.primary }};box-shadow:0 10px 26px color-mix(in srgb,{{ brand.primary }} 35%,transparent);color:#fff;font-size:17px;font-weight:700;cursor:pointer">{{ t.allowCam }}</button>
+        <button onClick="{{ useDemo }}" style="height:50px;border:1.5px solid #C9D3E3;border-radius:999px;background:#FFFFFF;color:#0B2545;font-size:16px;font-weight:600;cursor:pointer">{{ t.useDemoRoom }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 03 SCAN -->
+  <sc-if value="{{ is.scan }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;color:#0B2545">
+      {{ sweep }}
+      <div style="position:absolute;top:118px;left:50%;transform:translateX(-50%);display:flex;padding:4px;border-radius:12px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);z-index:5">
+        <button onClick="{{ startRoomCam }}" style="height:40px;padding:0 18px;border:none;border-radius:999px;background:{{ modeRoomBg }};color:{{ modeRoomFg }};font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer">{{ t.room }}</button>
+        <button onClick="{{ startDeviceCam }}" style="height:40px;padding:0 18px;border:none;border-radius:999px;background:{{ modeDeviceBg }};color:{{ modeDeviceFg }};font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer">{{ t.device }}</button>
+      </div>
+      <div style="position:absolute;left:50%;top:40%;width:56px;height:56px;margin:-28px 0 0 -28px;border:2px solid rgba(11,37,69,.45);border-radius:50%"></div>
+      <sc-for list="{{ scan.objects }}" as="o" hint-placeholder-count="0">
+        <div style="position:absolute;left:{{ o.left }};top:{{ o.top }};width:{{ o.width }};height:{{ o.height }};border:2px solid {{ o.color }};border-radius:10px;box-shadow:0 0 0 1px rgba(0,0,0,.25)">
+          <div style="position:absolute;left:-2px;bottom:100%;margin-bottom:4px;white-space:nowrap;display:flex;gap:6px;align-items:center;padding:4px 8px;border-radius:7px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);font-size:12px;font-weight:600">
+            <span style="width:7px;height:7px;border-radius:50%;background:{{ o.color }}"></span>{{ o.label }}<span style="font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#6B7280">{{ t.ai }}</span>
+          </div>
+        </div>
+      </sc-for>
+      <div style="position:absolute;top:52px;left:16px;right:16px;display:flex;gap:10px;align-items:flex-start">
+        <button onClick="{{ nav.permission }}" style="flex:none;width:44px;height:44px;border-radius:22px;border:none;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);color:#0B2545;font-size:20px;cursor:pointer">×</button>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14)">
+          <div style="display:flex;justify-content:space-between;gap:8px;font-size:15px;font-weight:700;white-space:nowrap"><span>{{ scan.room }}</span><span style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#6B7280">{{ scan.roomNum }}/4</span></div>
+          <div style="height:4px;border-radius:2px;background:#E3EAF4"><div style="height:4px;border-radius:2px;background:{{ brand.accent }};width:{{ scan.pct }}"></div></div>
+        </div>
+        <div style="flex:none;position:relative;width:80px;height:64px;border-radius:10px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);padding:6px;box-sizing:border-box">
+          <div style="position:relative;width:100%;height:100%">
+            <sc-for list="{{ scan.mini }}" as="r" hint-placeholder-count="4">
+              <div style="position:absolute;left:{{ r.left }};top:{{ r.top }};width:{{ r.w }};height:{{ r.h }};box-sizing:border-box;border:1.5px solid {{ r.border }};background:{{ r.bg }}"></div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 18px 34px;border-radius:24px 24px 0 0;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <span style="font-size:15px;line-height:1.35;color:#4B5563">{{ scan.hint }}</span>
+          <sc-if value="{{ scan.showSample }}" hint-placeholder-val="{{ false }}">
+            <span style="flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+              <span style="font:700 15px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ scan.sampleColor }};direction:ltr;unicode-bidi:isolate">{{ scan.sample }}</span>
+              <span style="font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:2px 6px;border-radius:999px;background:#E3ECFD;color:#1D4FBF">{{ t.measPhone }}</span>
+            </span>
+          </sc-if>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;min-height:30px">
+          <sc-for list="{{ scan.objects }}" as="o" hint-placeholder-count="0">
+            <span style="display:flex;gap:6px;align-items:center;padding:6px 10px;border-radius:8px;background:#EEF2F8;font-size:13px"><span style="width:7px;height:7px;border-radius:50%;background:{{ o.color }}"></span>{{ o.label }} · {{ o.impact }}</span>
+          </sc-for>
+        </div>
+        <button onClick="{{ scan.onNext }}" style="height:54px;border:none;border-radius:999px;background:{{ scan.nextBg }};color:#fff;font-size:17px;font-weight:700;cursor:pointer">{{ scan.nextLabel }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 04 MEASURE -->
+  <sc-if value="{{ is.measure }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:78px;padding-top:47px;display:flex;flex-direction:column;background:#F5F7FA">
+      <div style="flex:1;overflow:auto;padding:16px 22px;display:flex;flex-direction:column;gap:16px">
+        <div style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;letter-spacing:.06em;color:{{ brand.primary }}">{{ t.stepMeasure }}</div>
+        <h2 style="margin:0;padding-inline-start:14px;border-inline-start:6px solid {{ brand.primary }};font-size:28px;line-height:1.12;font-weight:800;letter-spacing:-.02em;color:#0B2545">{{ measureTitle }}</h2>
+        <div style="display:flex;gap:16px;align-items:center;padding:18px;border-radius:22px;background:#FFFFFF;border:1px solid #E3EAF4;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+          <div style="position:relative;flex:none;width:118px;height:118px"><svg width="118" height="118" viewBox="0 0 120 120" style="display:block;transform:rotate(-90deg)"><circle cx="60" cy="60" r="52" fill="none" stroke="#E3EAF4" stroke-width="10"></circle><circle cx="60" cy="60" r="52" fill="none" stroke="{{ brand.primary }}" stroke-width="10" stroke-linecap="round" stroke-dasharray="{{ mdash.dash }}" style="transition:stroke-dasharray .5s ease"></circle></svg><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center"><span style="font:800 26px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#0B2545;direction:ltr;unicode-bidi:isolate">{{ mdash.pct }}</span></div></div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:13px;font-weight:700;color:#6B7280">{{ mdash.ringLabel }}</span>
+            <span style="font:800 20px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#0B2545;direction:ltr;unicode-bidi:isolate">{{ mdash.speed }}</span>
+            <span style="align-self:flex-start;font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 7px;border-radius:999px;background:#E3ECFD;color:#1D4FBF">{{ mdash.tag }}</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+          <sc-for list="{{ mdash.tiles }}" as="tl" hint-placeholder-count="4">
+            <div style="display:flex;gap:10px;align-items:center;padding:12px;border-radius:18px;background:#FFFFFF;border:1px solid #E3EAF4;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+              <span style="flex:none;width:38px;height:38px;border-radius:12px;background:color-mix(in srgb,{{ brand.primary }} 12%,#FFFFFF);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ brand.primary }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ tl.icon }}"></path></svg></span>
+              <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                <span style="font-size:12px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ tl.label }}</span>
+                <span style="font:800 15px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ tl.color }};white-space:nowrap;direction:ltr;unicode-bidi:isolate;text-align:start">{{ tl.value }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:22px;background:#FFFFFF;border:1px solid #E3EAF4;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-size:14px;font-weight:800;color:#0B2545">{{ mdash.barsTitle }}</span><span style="font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 7px;border-radius:999px;background:#E3ECFD;color:#1D4FBF">{{ mdash.tag }}</span></div>
+          <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:end">
+            <sc-for list="{{ mdash.bars }}" as="b" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0">
+                <span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ b.color }};direction:ltr;unicode-bidi:isolate">{{ b.value }}</span>
+                <div style="position:relative;width:22px;height:96px;border-radius:11px;background:#EEF2F8;overflow:hidden"><div style="position:absolute;left:0;right:0;bottom:0;height:{{ b.h }};border-radius:11px;background:{{ b.fill }};transition:height .5s ease"></div></div>
+                <span style="font-size:11px;color:#6B7280;text-align:center;line-height:1.2">{{ b.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;border-radius:22px;background:#fff;border-color:#E3EAF4;border:1px solid #E5E7EB;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+          <sc-for list="{{ measureRows }}" as="m" hint-placeholder-count="7">
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid #EEF2F8">
+              <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:14px;font-weight:600;color:#1F2937">{{ m.label }}</span>
+                <span style="font-size:12px;color:#6B7280">{{ m.source }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right">
+                <span style="font:700 14px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ m.color }};direction:ltr;unicode-bidi:isolate">{{ m.value }}</span>
+                <span style="font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:2px 6px;border-radius:999px;background:{{ m.tagBg }};color:{{ m.tagFg }}">{{ m.tag }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="padding:12px 22px 14px">
+        <button onClick="{{ measureNext }}" style="width:100%;height:54px;border:none;border-radius:999px;background:{{ measureBtnBg }};color:#fff;font-size:17px;font-weight:700;cursor:pointer">{{ t.seeAR }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 05 AR -->
+  <sc-if value="{{ is.ar }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;color:#0B2545">
+      <div style="position:absolute;left:0;right:0;top:130px;height:300px;perspective:620px">
+        <div style="position:absolute;left:50%;bottom:0;width:320px;height:256px;margin-left:-160px;transform:rotateX(50deg);transform-origin:50% 100%;border-radius:14px;overflow:visible">
+          <div style="position:absolute;inset:0;border-radius:14px;opacity:.78;background-size:100% 100%;background-image:{{ ar.mapBg }}"></div>
+          <sc-for list="{{ ar.pins }}" as="p" hint-placeholder-count="4">
+            <div style="position:absolute;left:{{ p.left }};top:{{ p.top }};width:0;height:0">
+              <div style="position:absolute;left:-40px;bottom:0;width:80px;display:flex;flex-direction:column;align-items:center;transform:rotateX(-50deg);transform-origin:50% 100%">
+                <span style="font:700 13px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:4px 7px;border-radius:7px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);border:1.5px {{ p.borderStyle }} {{ p.color }};color:#0B2545;white-space:nowrap;direction:ltr;unicode-bidi:isolate">{{ p.value }}</span>
+                <span style="width:2px;height:22px;background:{{ p.color }}"></span>
+              </div>
+            </div>
+          </sc-for>
+          <div style="position:absolute;left:{{ ar.routerLeft }};top:{{ ar.routerTop }};width:0;height:0">
+            <div style="position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;background:#00B3A6;border:3px solid #fff;box-sizing:border-box"></div>
+          </div>
+          <sc-if value="{{ ar.showTarget }}" hint-placeholder-val="{{ true }}">
+            <div style="position:absolute;left:55%;top:45%;width:0;height:0">
+              <div style="position:absolute;left:-26px;top:-26px;width:52px;height:52px;border-radius:50%;border:4px dashed #6FA0FF;box-sizing:border-box"></div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      <div style="position:absolute;top:52px;left:16px;right:16px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;gap:10px;align-items:center">
+          <button onClick="{{ nav.measure }}" style="flex:none;width:44px;height:44px;border-radius:22px;border:none;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);color:#0B2545;font-size:20px;cursor:pointer">{{ t.arrow }}</button>
+          <div style="flex:1;display:flex;padding:4px;border-radius:14px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14)">
+            <button onClick="{{ ar.setCurrent }}" style="flex:1;height:38px;border:none;border-radius:999px;background:{{ ar.curBg }};color:{{ ar.curFg }};font-size:14px;font-weight:700;cursor:pointer">{{ t.current }}</button>
+            <button onClick="{{ ar.setRec }}" style="flex:1;height:38px;border:none;border-radius:999px;background:{{ ar.recBg }};color:{{ ar.recFg }};font-size:14px;font-weight:700;cursor:pointer">{{ t.recommended }}</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;white-space:nowrap;padding:5px 8px;border-radius:999px;background:#FFF1D6;color:#8A5A00">{{ t.estFrom4 }}</span>
+          <span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;white-space:nowrap;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);color:#4B5563">{{ xrArText }}</span>
+        </div>
+      </div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 18px 34px;border-radius:24px 24px 0 0;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:18px;font-weight:800">{{ ar.headline }}</span>
+          <span style="font-size:14px;line-height:1.4;color:#4B5563;text-wrap:pretty">{{ ar.sub }}</span>
+        </div>
+        <div style="display:flex;height:10px;border-radius:5px;overflow:hidden">
+          <div style="width:{{ ar.stats.s }};background:#3FBE7A"></div><div style="width:{{ ar.stats.m }};background:#F0C448"></div><div style="width:{{ ar.stats.w }};background:#E25054"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#4B5563"><span>{{ t.strong }} <bdi>{{ ar.stats.s }}</bdi></span><span>{{ t.moderate }} <bdi>{{ ar.stats.m }}</bdi></span><span>{{ t.weak }} <bdi>{{ ar.stats.w }}</bdi></span></div>
+        <div style="display:flex;gap:10px">
+          <button onClick="{{ nav.model }}" style="flex:1;height:52px;border:1.5px solid #C9D3E3;border-radius:14px;background:transparent;color:#0B2545;font-size:15px;font-weight:700;cursor:pointer">{{ t.model3d }}</button>
+          <button onClick="{{ ar.primary }}" style="flex:1.4;height:52px;border:none;border-radius:999px;background:{{ brand.primary }};box-shadow:0 10px 26px color-mix(in srgb,{{ brand.primary }} 35%,transparent);color:#fff;font-size:15px;font-weight:700;cursor:pointer">{{ ar.primaryLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 06 3D / VR -->
+  <sc-if value="{{ is.model }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:radial-gradient(100% 70% at 50% 35%,#FFFFFF 0%,#E8EEF7 75%);color:#0B2545;display:flex;flex-direction:column">
+      <div style="padding:52px 16px 0;display:flex;flex-direction:column;gap:10px;z-index:2">
+        <div style="display:flex;gap:10px;align-items:center">
+          <button onClick="{{ nav.ar }}" style="flex:none;width:44px;height:44px;border-radius:22px;border:none;background:#EEF2F8;color:#0B2545;font-size:20px;cursor:pointer">{{ t.arrow }}</button>
+          <div style="flex:1;font-size:18px;font-weight:800">{{ t.home3d }}</div>
+          <button onClick="{{ enterVR }}" style="flex:none;height:40px;padding:0 14px;white-space:nowrap;border-radius:12px;border:1.5px solid #C9D3E3;background:transparent;color:#0B2545;font-size:14px;font-weight:700;cursor:pointer">{{ t.enterVR }}</button>
+        </div>
+        <div style="display:flex;padding:4px;border-radius:14px;background:#EEF2F8">
+          <sc-for list="{{ places }}" as="p" hint-placeholder-count="3">
+            <button onClick="{{ p.onClick }}" style="flex:1;height:38px;border:none;border-radius:999px;background:{{ p.bg }};color:{{ p.fg }};font-size:14px;font-weight:700;cursor:pointer">{{ p.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position:relative;flex:1;min-height:0">
+        <div ref="{{ setThreeEl }}" style="position:absolute;inset:0;cursor:grab"></div>
+        <div style="position:absolute;left:16px;top:10px;display:flex;flex-direction:column;gap:6px;pointer-events:none">
+          <span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;white-space:nowrap;padding:5px 8px;border-radius:999px;background:#FFF1D6;color:#8A5A00">{{ t.estHeat }}</span>
+          <span style="font-size:12px;color:#6B7280">{{ t.pillars }}</span>
+        </div>
+        <sc-if value="{{ threeMsg }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:16px;right:16px;bottom:12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);border:1px solid #C9D3E3;font-size:13px;line-height:1.4;color:#374151">{{ threeMsg }}</div>
+        </sc-if>
+      </div>
+      <div style="padding:16px 18px 34px;background:#FFFFFF;border-top:1px solid #E3EAF4;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <span style="flex:1;min-width:0;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ t.weakDead }}</span>
+          <span style="font:700 18px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ modelWeakColor }};direction:ltr;unicode-bidi:isolate">{{ modelStats.w }}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <sc-for list="{{ modelRings }}" as="mr" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div style="position:relative;flex:none;width:64px;height:64px"><svg width="64" height="64" viewBox="0 0 120 120" style="display:block;transform:rotate(-90deg)"><circle cx="60" cy="60" r="52" fill="none" stroke="#E3EAF4" stroke-width="12"></circle><circle cx="60" cy="60" r="52" fill="none" stroke="{{ mr.color }}" stroke-width="12" stroke-linecap="round" stroke-dasharray="{{ mr.dash }}" style="transition:stroke-dasharray .5s ease"></circle></svg><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center"><span style="font:800 14px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#0B2545;direction:ltr;unicode-bidi:isolate">{{ mr.pct }}</span></div></div>
+              <span style="font-size:12px;font-weight:600;color:#4B5563">{{ mr.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size:13px;color:#6B7280;line-height:1.4">{{ modelNote }}</div>
+        <button onClick="{{ nav.diagnosis }}" style="height:52px;border:none;border-radius:999px;background:{{ brand.primary }};box-shadow:0 10px 26px color-mix(in srgb,{{ brand.primary }} 35%,transparent);color:#fff;font-size:16px;font-weight:700;cursor:pointer">{{ t.seeDiag }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 07 DIAGNOSIS -->
+  <sc-if value="{{ is.diagnosis }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:78px;padding-top:47px;display:flex;flex-direction:column;background:#F5F7FA">
+      <div style="flex:1;overflow:auto;padding:16px 22px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;letter-spacing:.06em;color:{{ brand.primary }}">{{ t.aiDiag }}</span>
+          <span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;white-space:nowrap;flex:none;padding:4px 8px;border-radius:999px;background:#E6E9F0;color:#0B2545">{{ diag.confLabel }}</span>
+        </div>
+        <div style="display:flex;gap:14px;align-items:center;padding:16px;border-radius:22px;background:#FFFFFF;border:1px solid #E3EAF4;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+          <div style="position:relative;flex:none;width:88px;height:88px"><svg width="88" height="88" viewBox="0 0 120 120" style="display:block;transform:rotate(-90deg)"><circle cx="60" cy="60" r="52" fill="none" stroke="#E3EAF4" stroke-width="11"></circle><circle cx="60" cy="60" r="52" fill="none" stroke="{{ brand.primary }}" stroke-width="11" stroke-linecap="round" stroke-dasharray="{{ diag.dash }}" style="transition:stroke-dasharray .5s ease"></circle></svg><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center"><span style="font:800 19px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#0B2545;direction:ltr;unicode-bidi:isolate">{{ diag.conf }}</span><span style="font:700 9px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#6B7280">{{ t.ai }}</span></div></div>
+          <h2 style="flex:1;min-width:0;margin:0;font-size:21px;line-height:1.2;font-weight:800;letter-spacing:-.01em;color:#0B2545;text-wrap:pretty">{{ diag.title }}</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+          <sc-for list="{{ diag.locator }}" as="l" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:6px;padding:12px 10px;border-radius:18px;background:{{ l.bg }};border:1.5px solid {{ l.border }}">
+              <span style="font-size:12px;font-weight:600;color:#4B5563">{{ l.label }}</span>
+              <span style="font-size:15px;font-weight:800;color:{{ l.color }}">{{ l.status }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <div style="font-size:14px;font-weight:700;color:#0B2545;margin-bottom:6px">{{ t.why }}</div>
+          <sc-for list="{{ diag.evidence }}" as="e" hint-placeholder-count="4">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #E5E7EB">
+              <span style="font-size:14px;line-height:1.4;color:#374151;text-wrap:pretty">{{ e.text }}</span>
+              <span style="flex:none;font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 6px;border-radius:5px;background:{{ e.bg }};color:{{ e.fg }}">{{ e.tag }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:14px;font-weight:700;color:#0B2545">{{ t.whatDo }}</div>
+          <sc-for list="{{ diag.recs }}" as="r" hint-placeholder-count="2">
+            <div style="display:flex;gap:12px;padding:14px;border-radius:20px;background:#fff;border:1px solid #E5E7EB">
+              <span style="flex:none;font:700 13px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ brand.primary }}">{{ r.n }}</span>
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:15px;font-weight:700;color:#1F2937">{{ r.title }}</span>
+                <span style="font-size:13px;line-height:1.4;color:#6B7280;text-wrap:pretty">{{ r.body }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="padding:12px 22px 14px;display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ diag.primary }}" style="height:54px;border:none;border-radius:999px;background:{{ brand.primary }};box-shadow:0 10px 26px color-mix(in srgb,{{ brand.primary }} 35%,transparent);color:#fff;font-size:17px;font-weight:700;cursor:pointer">{{ diag.primaryLabel }}</button>
+        <button onClick="{{ diag.secondary }}" style="height:48px;border:1.5px solid #C9D3E3;border-radius:999px;background:#FFFFFF;color:#0B2545;font-size:15px;font-weight:600;cursor:pointer">{{ diag.secondaryLabel }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- IMPACT -->
+  <sc-if value="{{ is.impact }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:78px;padding-top:47px;display:flex;flex-direction:column;background:#F5F7FA">
+      <div style="padding:8px 12px"><button onClick="{{ nav.diagnosis }}" style="height:44px;padding:0 10px;border:none;background:none;white-space:nowrap;font-size:15px;font-weight:600;color:#0B2545;cursor:pointer">{{ t.backDiag }}</button></div>
+      <div style="flex:1;overflow:auto;padding:0 22px 16px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;letter-spacing:.06em;color:{{ brand.primary }}">{{ t.aiAssess }}</span>
+          <span style="flex:none;font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 6px;border-radius:999px;background:#E6E9F0;color:#0B2545">{{ t.ai }}</span>
+        </div>
+        <h2 style="margin:0;font-size:25px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#0B2545;text-wrap:pretty">{{ impact.title }}</h2>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+          <sc-for list="{{ impact.split }}" as="s" hint-placeholder-count="2">
+            <div style="display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:14px;background:{{ s.bg }};border:1.5px solid {{ s.border }}">
+              <span style="font-size:12px;font-weight:700;color:#4B5563">{{ s.label }}</span>
+              <span style="font-size:15px;font-weight:800;color:{{ s.color }}">{{ s.status }}</span>
+              <span style="font-size:13px;line-height:1.35;color:#374151">{{ s.note }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;border-radius:22px;background:#fff;border-color:#E3EAF4;border:1px solid #E5E7EB;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #EEF2F8">
+            <span style="font-size:14px;font-weight:800;color:#0B2545">{{ t.impactOut }}</span>
+            <span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:4px 8px;border-radius:6px;background:{{ impact.levelBg }};color:{{ impact.levelFg }}">{{ impact.level }}</span>
+          </div>
+          <sc-for list="{{ impact.rows }}" as="r" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:4px;padding:11px 16px;border-bottom:1px solid #EEF2F8">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-size:12px;font-weight:700;color:#6B7280;letter-spacing:.02em">{{ r.label }}</span><span style="flex:none;font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 6px;border-radius:5px;background:{{ r.bg }};color:{{ r.fg }}">{{ r.tag }}</span></div>
+              <span style="font-size:14px;line-height:1.4;color:#1F2937;text-wrap:pretty">{{ r.text }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:16px;align-items:center;padding:16px;border-radius:22px;background:#EEF4FF;border:1px solid #D3E0F5;color:#0B2545">
+          <div style="display:flex;flex-direction:column;gap:2px;flex:none">
+            <span style="font-size:12px;font-weight:700;color:#6B7280">{{ t.etaLbl }}</span>
+            <span style="font:700 26px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;white-space:nowrap;direction:ltr;unicode-bidi:isolate">{{ impact.eta }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+            <span style="font-size:14px;line-height:1.4;color:#4B5563;text-wrap:pretty">{{ impact.etaNote }}</span>
+            <span style="align-self:flex-start;font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 6px;border-radius:999px;background:#FFF1D6;color:#8A5A00;white-space:nowrap">{{ impact.etaConfLabel }}</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:14px;font-weight:700;color:#0B2545">{{ t.recActions }}</div>
+          <sc-for list="{{ impact.actions }}" as="a" hint-placeholder-count="2">
+            <div style="display:flex;gap:12px;font-size:14px;line-height:1.4;color:#374151"><span style="flex:none;font:700 13px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ brand.primary }}">{{ a.n }}</span><span>{{ a.text }}</span></div>
+          </sc-for>
+          <div style="display:flex;justify-content:space-between;gap:12px;margin-top:6px;padding:12px 14px;border-radius:12px;background:{{ impact.escBg }}"><span style="font-size:13px;font-weight:700;color:#0B2545">{{ t.escalation }}</span><span style="font-size:13px;font-weight:600;text-align:right;color:{{ impact.escFg }}">{{ impact.esc }}</span></div>
+        </div>
+      </div>
+      <div style="padding:12px 22px 14px;display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ impact.primary }}" style="height:54px;border:none;border-radius:999px;background:{{ brand.primary }};box-shadow:0 10px 26px color-mix(in srgb,{{ brand.primary }} 35%,transparent);color:#fff;font-size:17px;font-weight:700;cursor:pointer">{{ impact.primaryLabel }}</button>
+        <button onClick="{{ impact.secondary }}" style="height:48px;border:1.5px solid #C9D3E3;border-radius:999px;background:#FFFFFF;color:#0B2545;font-size:15px;font-weight:600;cursor:pointer">{{ impact.secondaryLabel }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 08 GUIDE -->
+  <sc-if value="{{ is.guide }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;color:#0B2545">
+      <div style="position:absolute;left:45px;top:150px;width:300px;height:240px">
+        <div style="position:absolute;left:40px;top:50px;width:220px;height:86px;border-radius:14px;background:linear-gradient(180deg,#2A3344,#1A202C);box-shadow:0 16px 30px rgba(0,0,0,.45)">
+          <div style="position:absolute;left:16px;top:12px;font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#6B7280;letter-spacing:.1em">HUB PRO 6</div>
+        </div>
+        <sc-for list="{{ guide.lights }}" as="li" hint-placeholder-count="4">
+          <div style="position:absolute;left:{{ li.left }};top:104px;width:12px;height:12px;border-radius:50%;background:{{ li.color }};box-shadow:0 0 10px {{ li.color }}"></div>
+        </sc-for>
+        <div style="position:absolute;left:60px;top:166px;width:180px;height:44px;border-radius:8px;background:#141922;box-shadow:0 10px 20px rgba(0,0,0,.4)">
+          <div style="position:absolute;left:18px;top:13px;width:26px;height:18px;border-radius:3px;background:#E8590C"></div>
+          <div style="position:absolute;left:56px;top:13px;width:22px;height:18px;border-radius:3px;background:#3A4252"></div>
+          <div style="position:absolute;left:86px;top:13px;width:22px;height:18px;border-radius:3px;background:#3A4252"></div>
+          <div style="position:absolute;left:116px;top:13px;width:22px;height:18px;border-radius:3px;background:#3A4252"></div>
+          <div style="position:absolute;left:150px;top:14px;width:16px;height:16px;border-radius:50%;background:#3A4252;border:2px solid #59627A;box-sizing:border-box"></div>
+        </div>
+        <div style="position:absolute;left:{{ guide.hl.left }};top:{{ guide.hl.top }};width:{{ guide.hl.w }};height:{{ guide.hl.h }};border:3px solid {{ brand.accent }};border-radius:12px;box-shadow:0 0 0 4px rgba(242,140,40,.25);transition:all .35s ease">
+          <div style="position:absolute;left:50%;top:100%;margin-top:8px;transform:translateX(-50%);white-space:nowrap;padding:5px 10px;border-radius:8px;background:{{ brand.accent }};color:#0B2545;font-size:13px;font-weight:800">{{ guide.hl.label }}</div>
+        </div>
+      </div>
+      <div style="position:absolute;top:52px;left:16px;right:16px;display:flex;gap:10px;align-items:center">
+        <button onClick="{{ nav.diagnosis }}" style="flex:none;width:44px;height:44px;border-radius:22px;border:none;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);color:#0B2545;font-size:20px;cursor:pointer">{{ t.arrow }}</button>
+        <div style="flex:1;display:flex;gap:4px">
+          <sc-for list="{{ guide.dots }}" as="d" hint-placeholder-count="5">
+            <div style="flex:1;height:4px;border-radius:2px;background:{{ d.bg }}"></div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position:absolute;top:106px;left:50%;transform:translateX(-50%);display:flex;padding:4px;border-radius:12px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);z-index:5">
+        <button onClick="{{ startRoomCam }}" style="height:40px;padding:0 18px;border:none;border-radius:999px;background:{{ modeRoomBg }};color:{{ modeRoomFg }};font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer">{{ t.room }}</button>
+        <button onClick="{{ startDeviceCam }}" style="height:40px;padding:0 18px;border:none;border-radius:999px;background:{{ modeDeviceBg }};color:{{ modeDeviceFg }};font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer">{{ t.device }}</button>
+      </div>
+      <sc-if value="{{ guide.recog }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:162px;left:16px;display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);font-size:13px;font-weight:600">{{ t.recognised }}<span style="font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:2px 6px;border-radius:999px;background:#E6E9F0;color:#0B2545">{{ t.ai }}</span></div>
+      </sc-if>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 18px 34px;border-radius:24px 24px 0 0;background:rgba(255,255,255,.95);box-shadow:0 6px 20px rgba(16,42,84,.14);display:flex;flex-direction:column;gap:12px">
+        <span style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ brand.accent }};letter-spacing:.06em">{{ guide.counter }}</span>
+        <span style="font-size:20px;font-weight:800;line-height:1.2">{{ guide.title }}</span>
+        <span style="font-size:15px;line-height:1.45;color:#4B5563;text-wrap:pretty">{{ guide.body }}</span>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+          <sc-for list="{{ guide.options }}" as="op" hint-placeholder-count="2">
+            <button onClick="{{ op.onClick }}" style="height:50px;border-radius:14px;border:{{ op.border }};background:{{ op.bg }};color:{{ op.fg }};font-size:16px;font-weight:700;cursor:pointer">{{ op.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 09 OUTCOME -->
+  <sc-if value="{{ is.outcome }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:78px;padding-top:47px;display:flex;flex-direction:column;background:#F5F7FA">
+      <div style="flex:1;overflow:auto;padding:16px 22px;display:flex;flex-direction:column;gap:16px">
+        <div style="width:56px;height:56px;border-radius:16px;background:{{ out.iconBg }};color:#fff;font-size:28px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ out.icon }}</div>
+        <h2 style="margin:0;padding-inline-start:14px;border-inline-start:6px solid {{ brand.primary }};font-size:28px;line-height:1.12;font-weight:800;letter-spacing:-.02em;color:#0B2545;text-wrap:pretty">{{ out.title }}</h2>
+        <p style="margin:0;font-size:15px;line-height:1.5;color:#4B5563;text-wrap:pretty">{{ out.body }}</p>
+        <div style="display:flex;flex-direction:column;border-radius:22px;background:#fff;border-color:#E3EAF4;border:1px solid #E5E7EB;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+          <div style="padding:12px 16px;border-bottom:1px solid #EEF2F8;font-size:13px;font-weight:700;color:#0B2545">{{ out.tableTitle }}</div>
+          <sc-for list="{{ out.rows }}" as="r" hint-placeholder-count="4">
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid #EEF2F8">
+              <span style="font-size:14px;color:#374151">{{ r.label }}</span>
+              <span style="display:flex;gap:8px;align-items:center"><span style="font:700 14px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ r.color }};direction:ltr;unicode-bidi:isolate">{{ r.value }}</span><span style="font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:2px 6px;border-radius:999px;background:#E3ECFD;color:#1D4FBF">{{ t.tagMeasured }}</span></span>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ out.showCase }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:22px;background:#EEF4FF;border:1px solid #D3E0F5;color:#0B2545">
+            <sc-if value="{{ isEnLogo }}" hint-placeholder-val="{{ true }}"><img src="assets/logo-en.png" alt="Omantel" style="height:30px;width:auto;display:block;align-self:flex-start"></sc-if><sc-if value="{{ isArLogo }}" hint-placeholder-val="{{ false }}"><img src="assets/logo-ar.png" alt="عمانتل" style="height:34px;width:auto;display:block;align-self:flex-start"></sc-if>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:15px;font-weight:800">{{ out.caseLabel }}</span><span style="font:700 11px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#1F8A57">{{ t.open }}</span></div>
+            <div style="font-size:14px;line-height:1.45;color:#4B5563">{{ out.caseText }}</div>
+            <div style="font-size:12px;font-weight:700;color:#6B7280;letter-spacing:.04em">{{ t.attached }}</div>
+          </div>
+        </sc-if>
+      </div>
+      <div style="padding:12px 22px 14px;display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ out.primary }}" style="height:54px;border:none;border-radius:999px;background:{{ brand.primary }};box-shadow:0 10px 26px color-mix(in srgb,{{ brand.primary }} 35%,transparent);color:#fff;font-size:17px;font-weight:700;cursor:pointer">{{ out.primaryLabel }}</button>
+        <button onClick="{{ out.secondary }}" style="height:48px;border:1.5px solid #C9D3E3;border-radius:999px;background:#FFFFFF;color:#0B2545;font-size:15px;font-weight:600;cursor:pointer">{{ out.secondaryLabel }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- REPORT -->
+  <sc-if value="{{ is.report }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:78px;padding-top:47px;display:flex;flex-direction:column;background:#F5F7FA">
+      <div style="padding:8px 12px"><button onClick="{{ nav.outcome }}" style="height:44px;padding:0 10px;border:none;background:none;white-space:nowrap;font-size:15px;font-weight:600;color:#0B2545;cursor:pointer">{{ t.backResult }}</button></div>
+      <div style="flex:1;overflow:auto;padding:0 22px 16px;display:flex;flex-direction:column;gap:16px">
+        <sc-if value="{{ isEnLogo }}" hint-placeholder-val="{{ true }}"><img src="assets/logo-en.png" alt="Omantel" style="height:30px;width:auto;display:block;align-self:flex-start"></sc-if><sc-if value="{{ isArLogo }}" hint-placeholder-val="{{ false }}"><img src="assets/logo-ar.png" alt="عمانتل" style="height:34px;width:auto;display:block;align-self:flex-start"></sc-if>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <span style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;letter-spacing:.06em;color:{{ brand.primary }};white-space:nowrap">{{ t.treat }}</span>
+          <span style="font-size:12px;color:#6B7280;white-space:nowrap">{{ t.date }}</span>
+        </div>
+        <h2 style="margin:0;font-size:25px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#0B2545;text-wrap:pretty">{{ report.title }}</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px;border-radius:22px;background:#EEF4FF;border:1px solid #D3E0F5;color:#0B2545">
+          <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+            <span style="font-size:12px;font-weight:700;color:#6B7280">{{ t.overall }}</span>
+            <span style="font-size:13px;line-height:1.35;color:#4B5563">{{ report.overallNote }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none">
+            <span style="font:700 30px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#1F8A57;white-space:nowrap;direction:ltr;unicode-bidi:isolate">{{ report.overall }}</span>
+            <span style="font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:3px 6px;border-radius:5px;background:{{ report.overallTagBg }};color:{{ report.overallTagFg }}">{{ report.overallTag }}</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;border-radius:22px;background:#fff;border-color:#E3EAF4;border:1px solid #E5E7EB;box-shadow:0 8px 28px rgba(16,42,84,.08)">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 64px 64px 62px;gap:6px;padding:10px 14px;border-bottom:1px solid #EEF2F8;font-size:11px;font-weight:700;color:#6B7280;letter-spacing:.04em">
+            <span>{{ t.metric }}</span><span style="text-align:right">{{ t.before }}</span><span style="text-align:right">{{ t.after }}</span><span style="text-align:right">{{ t.change }}</span>
+          </div>
+          <sc-for list="{{ report.rows }}" as="r" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:6px;padding:11px 14px;border-bottom:1px solid #EEF2F8">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) 64px 64px 62px;gap:6px;align-items:baseline">
+                <span style="font-size:13px;font-weight:600;color:#1F2937;line-height:1.3">{{ r.metric }}</span>
+                <span style="font:500 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#6B7280;text-align:right;direction:ltr;unicode-bidi:isolate">{{ r.before }}</span>
+                <span style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:#1F2937;text-align:right;direction:ltr;unicode-bidi:isolate">{{ r.after }}</span>
+                <span style="font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;color:{{ r.changeColor }};text-align:right;direction:ltr;unicode-bidi:isolate">{{ r.change }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:3px">
+                <div style="height:5px;border-radius:3px;background:#EEF2F8"><div style="height:5px;border-radius:3px;background:#B6BFCC;width:{{ r.bw }}"></div></div>
+                <div style="height:5px;border-radius:3px;background:#EEF2F8"><div style="height:5px;border-radius:3px;background:{{ r.barColor }};width:{{ r.aw }}"></div></div>
+              </div>
+              <span style="align-self:flex-start;font:700 10px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;padding:2px 6px;border-radius:5px;background:{{ r.tagBg }};color:{{ r.tagFg }}">{{ r.tag }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:14px;font-weight:700;color:#0B2545">{{ t.issues }}</div>
+          <sc-for list="{{ report.issues }}" as="t" hint-placeholder-count="2">
+            <div style="display:flex;gap:10px;font-size:14px;line-height:1.4;color:#374151"><span style="flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:#D93B42"></span><span>{{ t }}</span></div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:14px;font-weight:700;color:#0B2545">{{ t.actionsTaken }}</div>
+          <sc-for list="{{ report.actions }}" as="t" hint-placeholder-count="3">
+            <div style="display:flex;gap:10px;font-size:14px;line-height:1.4;color:#374151"><span style="flex:none;color:#1F8A57;font-weight:800">✓</span><span>{{ t }}</span></div>
+          </sc-for>
+        </div>
+        <div style="font-size:13px;line-height:1.45;color:#6B7280">{{ report.footnote }}</div>
+        <sc-if value="{{ report.toast }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:10px 14px;border-radius:12px;background:#EAF7F0;color:#1F8A57;font-size:14px;font-weight:700">{{ report.toast }}</div>
+        </sc-if>
+      </div>
+      <div style="padding:12px 22px 14px;display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ report.share }}" style="height:54px;border:none;border-radius:999px;background:{{ brand.primary }};box-shadow:0 10px 26px color-mix(in srgb,{{ brand.primary }} 35%,transparent);color:#fff;font-size:17px;font-weight:700;cursor:pointer">{{ t.share }}</button>
+        <button onClick="{{ nav.welcome }}" style="height:48px;border:1.5px solid #C9D3E3;border-radius:999px;background:#FFFFFF;color:#0B2545;font-size:15px;font-weight:600;cursor:pointer">{{ t.done }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ tabs.show }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;height:78px;z-index:58;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:8px 10px 20px;box-sizing:border-box;background:#FFFFFF;border-radius:22px 22px 0 0;box-shadow:0 -6px 24px rgba(16,42,84,.08)">
+      <sc-for list="{{ tabs.items }}" as="tb" hint-placeholder-count="4">
+        <button onClick="{{ tb.onClick }}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ tb.fg }};font-size:11px;font-weight:700;cursor:pointer;min-height:44px">
+          <span style="width:40px;height:28px;border-radius:999px;background:{{ tb.bg }};display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ tb.icon }}"></path></svg></span>
+          <span style="white-space:nowrap">{{ tb.label }}</span>
+        </button>
+      </sc-for>
+    </div>
+  </sc-if>
+  <sc-if value="{{ chat.fab }}" hint-placeholder-val="{{ true }}">
+    <button title="Ask Ava" aria-label="Ask Ava" onPointerDown="{{ chat.down }}" onPointerMove="{{ chat.move }}" onPointerUp="{{ chat.up }}" onPointerCancel="{{ chat.up }}" style="position:absolute;left:{{ chat.x }};top:{{ chat.y }};touch-action:none;user-select:none;z-index:65;width:44px;height:44px;padding:0;border:2px solid #FFFFFF;border-radius:22px;background:{{ brand.primary }};color:#fff;display:flex;align-items:center;justify-content:center;font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace;box-shadow:0 6px 16px rgba(11,37,69,.3);opacity:.92;cursor:pointer;transition:left .2s ease" style-hover="opacity:1">{{ t.ai }}</button>
+  </sc-if>
+  <sc-if value="{{ chat.isOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:70;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(11,37,69,.45)">
+      <div style="height:80%;display:flex;flex-direction:column;background:#fff;border-radius:24px 24px 0 0;overflow:hidden">
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 12px 14px 18px;border-bottom:1px solid #EEF2F8">
+          <span style="flex:none;width:40px;height:40px;border-radius:20px;background:{{ brand.primary }};color:#fff;display:flex;align-items:center;justify-content:center;font:700 12px 'JetBrains Mono','IBM Plex Sans Arabic',monospace">{{ t.ai }}</span>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+            <span style="font-size:16px;font-weight:800;color:#0B2545">{{ t.ava }}</span>
+            <span style="font-size:12px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ t.avaSub }}</span>
+          </div>
+          <button onClick="{{ chat.toggleVoice }}" style="flex:none;height:36px;padding:0 10px;border-radius:10px;border:1.5px solid {{ chat.voiceBorder }};background:{{ chat.voiceBg }};color:#0B2545;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer">{{ chat.voiceLabel }}</button>
+          <button onClick="{{ chat.close }}" style="flex:none;width:44px;height:44px;border:none;background:none;font-size:24px;color:#0B2545;cursor:pointer">×</button>
+        </div>
+        <div ref="{{ setChatEl }}" style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ chat.msgs }}" as="m" hint-placeholder-count="1">
+            <div style="display:flex;flex-direction:column;gap:8px;align-items:{{ m.align }}">
+              <div style="max-width:85%;padding:10px 14px;border-radius:16px;background:{{ m.bg }};color:{{ m.fg }};font-size:15px;line-height:1.4;text-wrap:pretty">{{ m.text }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;max-width:92%">
+                <sc-for list="{{ m.chips }}" as="c" hint-placeholder-count="0">
+                  <button onClick="{{ c.onClick }}" style="height:40px;padding:0 14px;border-radius:20px;border:1.5px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};font-size:13px;font-weight:700;white-space:nowrap;cursor:pointer">{{ c.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ chat.typing }}" hint-placeholder-val="{{ false }}">
+            <div style="align-self:flex-start;padding:10px 14px;border-radius:16px;background:#EEF2F8;color:#6B7280;font-size:14px">{{ t.thinking }}</div>
+          </sc-if>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;padding:10px 12px 30px;border-top:1px solid #EEF2F8">
+          <button onClick="{{ chat.mic }}" style="flex:none;width:44px;height:44px;border-radius:22px;border:none;background:{{ chat.micBg }};display:flex;align-items:center;justify-content:center;cursor:pointer"><span style="display:flex;flex-direction:column;align-items:center;gap:1px"><span style="width:10px;height:15px;border-radius:5px;border:2px solid #fff;box-sizing:border-box"></span><span style="width:2px;height:4px;background:#fff"></span></span></button>
+          <input type="text" placeholder="{{ chat.placeholder }}" value="{{ chat.input }}" onChange="{{ chat.onInput }}" onKeyDown="{{ chat.onKey }}" style="flex:1;min-width:0;height:44px;padding:0 16px;border-radius:22px;border:1.5px solid #E5E7EB;background:#F5F7FA;font-family:inherit;font-size:15px;color:#1F2937;outline:none">
+          <button onClick="{{ chat.send }}" style="flex:none;width:44px;height:44px;border-radius:22px;border:none;background:{{ brand.primary }};color:#fff;font-size:20px;font-weight:800;cursor:pointer">↑</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="position:absolute;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:{{ homeBar }};opacity:.85;z-index:60;pointer-events:none"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;scenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;wifi&quot;,&quot;device&quot;,&quot;router&quot;,&quot;network&quot;],&quot;default&quot;:&quot;wifi&quot;,&quot;tsType&quot;:&quot;'wifi'|'device'|'router'|'network'&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;forceDemo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;primaryColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#1554A8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Brand&quot;},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#F28C28&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Brand&quot;}}">
+const SCREENS=['lang','welcome','identify','permission','scan','measure','ar','model','diagnosis','impact','guide','outcome','report'];
+const LABELS=['Language','Start','Your service','Camera access','Scan rooms','Measure connection','AR coverage','3D / VR model','AI diagnosis','Network impact','Guided check','Result','Treatment report'];
+const ROOMS=[
+ {id:'living',n:{en:'Living room',ar:'غرفة المعيشة'},x0:0,y0:0,x1:6,y1:4,cx:3,cy:2},
+ {id:'kitchen',n:{en:'Kitchen',ar:'المطبخ'},x0:6,y0:0,x1:10,y1:4,cx:8,cy:2},
+ {id:'bedroom',n:{en:'Bedroom',ar:'غرفة النوم'},x0:0,y0:4,x1:5,y1:8,cx:2.5,cy:6},
+ {id:'office',n:{en:'Office',ar:'المكتب'},x0:5,y0:4,x1:10,y1:8,cx:7.5,cy:6}];
+const INNER=[[6,0,6,1.6],[6,2.6,6,4],[0,4,2,4],[3,4,6.5,4],[7.5,4,10,4],[5,4,5,8]];
+const OUTER=[[0,0,10,0],[10,0,10,8],[10,8,0,8],[0,8,0,0]];
+const POS={current:{x:0.5,y:0.5},recommended:{x:5.5,y:3.6},extender:{x:6.4,y:4.8}};
+const IMPACT={High:'#FF6B6F',Medium:'#F0C448',Low:'#C3D2EA'};
+const IMPACT_T={en:{High:'High',Medium:'Medium',Low:'Low'},ar:{High:'تأثير عالٍ',Medium:'تأثير متوسط',Low:'تأثير منخفض'}};
+const OBJECTS={
+ living:[{en:'Router · in TV cabinet',ar:'الراوتر · داخل خزانة التلفاز',impact:'High',l:10,t:54,w:30,h:12,at:12},{en:'TV wall',ar:'جدار التلفاز',impact:'Medium',l:46,t:22,w:42,h:22,at:35},{en:'Mirror · reflective',ar:'مرآة · عاكسة',impact:'Medium',l:64,t:56,w:24,h:12,at:58},{en:'Sofa',ar:'أريكة',impact:'Low',l:16,t:72,w:46,h:6,at:80}],
+ kitchen:[{en:'Fridge · metal',ar:'ثلاجة · معدنية',impact:'High',l:62,t:26,w:28,h:38,at:18},{en:'Microwave · 2.4 GHz',ar:'ميكروويف · 2.4 GHz',impact:'Medium',l:10,t:44,w:28,h:10,at:44},{en:'Brick wall',ar:'جدار طوب',impact:'High',l:24,t:18,w:30,h:16,at:70}],
+ bedroom:[{en:'Wardrobe',ar:'خزانة ملابس',impact:'Medium',l:58,t:22,w:32,h:42,at:28},{en:'Plaster wall',ar:'جدار جبس',impact:'Low',l:8,t:22,w:40,h:24,at:62}],
+ office:[{en:'Metal shelving',ar:'رفوف معدنية',impact:'Medium',l:8,t:22,w:26,h:42,at:28},{en:'Desk + PC',ar:'مكتب + حاسوب',impact:'Low',l:42,t:56,w:46,h:12,at:60}]};
+const SCEN={
+ wifi:{label:'Room coverage',wired:487,plan:500,lat:14,jit:3,loss:0,status:{en:'Online · fw 6.2.1',ar:'متصل · إصدار 6.2.1'},area:{en:'No faults in your area',ar:'لا أعطال في منطقتك'},internet:'#F4F6FA',after:'#F4F6FA'},
+ device:{label:'Device issue (laptop)',wired:487,plan:500,lat:14,jit:3,loss:0,status:{en:'Online · 6 devices',ar:'متصل · 6 أجهزة'},area:{en:'No faults in your area',ar:'لا أعطال في منطقتك'},internet:'#F4F6FA',after:'#F4F6FA'},
+ router:{label:'Router fault',wired:62,plan:500,lat:48,jit:22,loss:2.1,status:{en:'9 restarts in 24 h',ar:'9 إعادات تشغيل خلال 24 ساعة'},area:{en:'No faults in your area',ar:'لا أعطال في منطقتك'},internet:'#F2A33A',after:'#F4F6FA'},
+ network:{label:'Broadband network fault',wired:38,plan:500,lat:96,jit:41,loss:6.4,status:{en:'Online · line unstable',ar:'متصل · الخط غير مستقر'},area:{en:'Line errors · cabinet 14B',ar:'أخطاء في الخط · الكابينة 14B'},internet:'#F2A33A',after:'#F2A33A'}};
+const TAGC={M:['#E3ECFD','#1D4FBF'],E:['#FFF1D6','#8A5A00'],A:['#E6E9F0','#0B2545'],AC:['#E6E9F0','#0B2545']};
+const TAGT={en:{M:'MEASURED',E:'ESTIMATED',A:'AI',AC:'AI · CAMERA'},ar:{M:'مُقاس',E:'تقديري',A:'ذكاء اصطناعي',AC:'ذكاء · كاميرا'}};
+const HL={device:{left:'30px',top:'40px',w:'240px',h:'106px',en:'Your router',ar:'الراوتر'},power:{left:'62px',top:'96px',w:'28px',h:'28px',en:'Power light',ar:'ضوء الطاقة'},wan:{left:'72px',top:'172px',w:'38px',h:'32px',en:'WAN port',ar:'منفذ WAN'},internet:{left:'122px',top:'96px',w:'28px',h:'28px',en:'Internet light',ar:'ضوء الإنترنت'},button:{left:'204px',top:'174px',w:'30px',h:'30px',en:'Power button',ar:'زر التشغيل'}};
+const T_EN={demoFeed:'DEMO ROOM · CAMERA OFF',brand:'Broadband support',exampleCov:'EXAMPLE · ESTIMATED COVERAGE',welcomeH:'Find out why your Wi‑Fi is slow.',w1:'Scan each room with your camera',w2:'See coverage in AR and a 3D model of your home',w3:'Get a fix — or a support case with your results attached',whatScan:'What do you want to scan?',scanRoom:'Scan a room',scanRoomSub:'Coverage & dead zones',scanDevice:'Scan a device',scanDeviceSub:'Router, cables, lights',back:'‹ Back',idH:'Find your broadband service',idP:'Enter the mobile number on your broadband account. We’ll load your plan, router and line status.',mobile:'Mobile number',useDemoNum:'Use demo number',lookingUp:'Looking up your service…',found:'✓ Service found',fromISP:'From ISP systems',idPrivacy:'We only use your number to find this service. Nothing is shared.',notMe:'Not me — use another number',camH:'Allow camera access',camP:'We use the camera to map your walls, furniture and router. Video stays on this phone — only the room outline and detected objects are used.',cam1:'Processed on your device',cam2:'No photos or video are saved',cam3:'Turn it off any time in browser settings',camNoteB:'The camera can’t measure Wi‑Fi.',camNote:'Signal strength comes from your router and this phone, then we combine it with the room layout.',allowCam:'Allow camera',useDemoRoom:'Use a demo room instead',room:'Room',device:'Device',measPhone:'MEASURED · PHONE',seeAR:'See coverage in AR',current:'Current',recommended:'Recommended',estFrom4:'ESTIMATED · FROM 4 MEASURED POINTS',strong:'Strong',moderate:'Moderate',weak:'Weak',model3d:'3D model',home3d:'Your home in 3D',enterVR:'Enter VR',estHeat:'ESTIMATED HEATMAP',pillars:'Pillars = measured rooms · drag to orbit',weakDead:'Weak or dead areas',seeDiag:'See diagnosis',aiDiag:'AI DIAGNOSIS',why:'Why we think so',whatDo:'What to do',backDiag:'‹ Diagnosis',aiAssess:'AI ASSESSMENT',impactOut:'Impact outside your home',etaLbl:'Estimated fix time',recActions:'Recommended actions',escalation:'Escalation',recognised:'Hub Pro 6 recognised · 94%',open:'OPEN',attached:'ATTACHED: line test · router logs · room map · checks you completed',backResult:'‹ Result',treat:'TREATMENT REPORT',date:'27 Oct 2026 · 09:41',overall:'Overall improvement',metric:'METRIC',before:'BEFORE',after:'AFTER',change:'CHANGE',issues:'Issues identified',actionsTaken:'Actions taken',share:'Share report',done:'Done',askAva:'Ask Ava',ava:'Ava',avaSub:'AI assistant · sees your scan & results',thinking:'Ava is thinking…',tagMeasured:'MEASURED',ai:'AI',arrow:'‹',switchLang:'العربية',stepMeasure:'STEP 6 OF 13'};
+const T_AR={demoFeed:'غرفة تجريبية · الكاميرا مغلقة',brand:'دعم النطاق العريض',exampleCov:'مثال · تغطية تقديرية',welcomeH:'اكتشف سبب بطء Wi‑Fi لديك.',w1:'امسح كل غرفة بكاميرا هاتفك',w2:'شاهد التغطية بالواقع المعزز ونموذجًا ثلاثي الأبعاد لمنزلك',w3:'احصل على حل — أو بلاغ دعم مرفق به نتائجك',whatScan:'ماذا تريد أن تمسح؟',scanRoom:'مسح غرفة',scanRoomSub:'التغطية والمناطق الميتة',scanDevice:'مسح جهاز',scanDeviceSub:'الراوتر والكابلات والأضواء',back:'› رجوع',idH:'ابحث عن خدمة النطاق العريض',idP:'أدخل رقم الجوال المسجل في حساب النطاق العريض. سنعرض باقتك والراوتر وحالة الخط.',mobile:'رقم الجوال',useDemoNum:'استخدم رقمًا تجريبيًا',lookingUp:'جارٍ البحث عن خدمتك…',found:'✓ تم العثور على الخدمة',fromISP:'من أنظمة مزود الخدمة',idPrivacy:'نستخدم رقمك فقط للعثور على هذه الخدمة. لا تتم مشاركة أي شيء.',notMe:'ليس أنا — استخدم رقمًا آخر',camH:'السماح بالوصول إلى الكاميرا',camP:'نستخدم الكاميرا لرسم الجدران والأثاث وموقع الراوتر. يبقى الفيديو على هاتفك — نستخدم فقط مخطط الغرفة والعناصر المكتشفة.',cam1:'تتم المعالجة على جهازك',cam2:'لا يتم حفظ أي صور أو فيديو',cam3:'يمكنك إيقافها في أي وقت من إعدادات المتصفح',camNoteB:'الكاميرا لا تقيس قوة Wi‑Fi.',camNote:'تأتي قوة الإشارة من الراوتر وهذا الهاتف، ثم ندمجها مع مخطط الغرفة.',allowCam:'السماح بالكاميرا',useDemoRoom:'استخدم غرفة تجريبية بدلًا من ذلك',room:'غرفة',device:'جهاز',measPhone:'مُقاس · الهاتف',seeAR:'شاهد التغطية بالواقع المعزز',current:'الحالي',recommended:'المقترح',estFrom4:'تقديري · من 4 نقاط مُقاسة',strong:'قوية',moderate:'متوسطة',weak:'ضعيفة',model3d:'نموذج ثلاثي الأبعاد',home3d:'منزلك بالأبعاد الثلاثية',enterVR:'دخول VR',estHeat:'خريطة حرارية تقديرية',pillars:'الأعمدة = غرف مُقاسة · اسحب للتدوير',weakDead:'مناطق ضعيفة أو ميتة',seeDiag:'عرض التشخيص',aiDiag:'تشخيص بالذكاء الاصطناعي',why:'لماذا نعتقد ذلك',whatDo:'ماذا تفعل',backDiag:'› التشخيص',aiAssess:'تقييم الذكاء الاصطناعي',impactOut:'التأثير خارج منزلك',etaLbl:'الوقت المتوقع للإصلاح',recActions:'الإجراءات الموصى بها',escalation:'التصعيد',recognised:'تم التعرف على Hub Pro 6 · 94%',open:'مفتوح',attached:'مرفق: اختبار الخط · سجلات الراوتر · خريطة الغرف · الفحوصات التي أجريتها',backResult:'› النتيجة',treat:'تقرير المعالجة',date:'27 أكتوبر 2026 · 09:41',overall:'التحسن الإجمالي',metric:'المؤشر',before:'قبل',after:'بعد',change:'التغيّر',issues:'المشكلات المكتشفة',actionsTaken:'الإجراءات المتخذة',share:'مشاركة التقرير',done:'تم',askAva:'اسأل آفا',ava:'آفا',avaSub:'مساعدة ذكية · ترى المسح والنتائج',thinking:'آفا تفكر…',tagMeasured:'مُقاس',ai:'ذكاء',arrow:'›',switchLang:'English',stepMeasure:'الخطوة 6 من 13'};
+function cross(ax,ay,bx,by,s){const [cx,cy,dx,dy]=s;const o=(px,py,qx,qy,rx,ry)=>(qx-px)*(ry-py)-(qy-py)*(rx-px);const d1=o(cx,cy,dx,dy,ax,ay),d2=o(cx,cy,dx,dy,bx,by),d3=o(ax,ay,bx,by,cx,cy),d4=o(ax,ay,bx,by,dx,dy);return d1*d2<0&&d3*d4<0;}
+function sig(rx,ry,x,y,base,enc){const d=Math.max(Math.hypot(x-rx,y-ry),0.4);let w=0;for(const s of INNER)if(cross(rx,ry,x,y,s))w++;return base-30*Math.log10(d)-9*w-enc;}
+function signal(p,x,y){const cur=sig(0.5,0.5,x,y,-30,8);if(p==='current')return cur;if(p==='recommended')return sig(5.5,3.6,x,y,-30,0);return Math.max(cur,sig(6.4,4.8,x,y,-35,0));}
+function lerp(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t));}
+function heat(v){const G=[63,190,122],Y=[240,196,72],R=[226,80,84];if(v>=-58)return G;if(v>=-62)return lerp(G,Y,(-58-v)/4);if(v>=-68)return Y;if(v>=-72)return lerp(Y,R,(-68-v)/4);return R;}
+function sigColor(v){return v>=-60?'#3FBE7A':v>=-70?'#F0C448':'#FF6B6F';}
+function sigColorLight(v){return v>=-60?'#1F8A57':v>=-70?'#9A6B00':'#C0313A';}
+function mbps(v,wired){return Math.max(18,Math.min(Math.round(wired*0.93),Math.round(650/(1+Math.exp(-(v+64)/3.5)))));}
+
+class Component extends DCLogic {
+  state={avaPos:(()=>{try{const p=JSON.parse(localStorage.getItem('hwc-ava-dock'));if(p&&typeof p.x==='number')return p;}catch(e){}return {x:362,y:600};})(),lang:null,chatOpen:false,msgs:[],chatInput:'',typing:false,listening:false,voice:false,toast:'',phone:'',lookup:'idle',phoneErr:'',account:false,mode:'room',screen:'lang',cam:'none',camErr:'',roomIdx:0,progress:0,mStep:0,arPlace:'current',fromDiag:false,place:'current',step:0,recog:false,restart:0,restarted:false,escalated:false,xr:{ar:false,vr:false},threeMsg:'',maps:false,net:null};
+  get L(){return this.state.lang||'en';}
+  X(en,ar){return this.L==='ar'?ar:en;}
+  setThreeEl=el=>{this.threeEl=el;if(el&&this.state.screen==='model')setTimeout(()=>this.initThree(),0);};
+  setVideoEl=el=>{this.videoEl=el;if(el&&this.stream&&el.srcObject!==this.stream){el.srcObject=this.stream;el.play().catch(()=>{});}};
+  setChatEl=el=>{this.chatEl=el;if(el)el.scrollTop=el.scrollHeight;};
+  initTries=0;
+  avaDown=e=>{this.avaDrag={sx:e.clientX,sy:e.clientY,ox:this.state.avaPos.x,oy:this.state.avaPos.y,moved:false};try{e.currentTarget.setPointerCapture(e.pointerId);}catch(_){}};
+  avaMove=e=>{const d=this.avaDrag;if(!d)return;const fs=this.state.fitS||1,dx=(e.clientX-d.sx)/fs,dy=(e.clientY-d.sy)/fs;if(Math.abs(dx)+Math.abs(dy)>6)d.moved=true;if(d.moved){const w=e.currentTarget.offsetWidth||124;this.setState({avaPos:{x:Math.max(0,Math.min(390-w,d.ox+dx)),y:Math.max(60,Math.min(844-70,d.oy+dy))}});}};
+  avaUp=()=>{const d=this.avaDrag;this.avaDrag=null;if(!d)return;if(!d.moved)this.openChat();else{const p={x:this.state.avaPos.x+22<195?-16:362,y:this.state.avaPos.y};this.setState({avaPos:p});try{localStorage.setItem('hwc-ava-dock',JSON.stringify(p));}catch(_){}}};
+  componentDidMount(){
+    clearInterval(this.ticker);this.mLast=Date.now();this.ticker=setInterval(()=>{const st=this.state;if(st.screen==='scan'&&st.progress<100)this.setState(s=>({progress:Math.min(100,s.progress+2)}));if(st.screen==='measure'&&st.mStep<8&&Date.now()-this.mLast>=520){this.mLast=Date.now();this.setState(s=>({mStep:s.mStep+1}));}},110);
+    this.onResize=()=>{const narrow=window.innerWidth<820;const W=window.innerWidth,H=window.innerHeight;if(!W||!H)return;const s=Math.max(0.4,Math.min(1,(H-32)/866,narrow?(W-24)/412:1));if(Math.abs(s-(this.state.fitS||1))>0.005||narrow!==!!this.state.narrow)this.setState({fitS:s,narrow});};this.onResize();requestAnimationFrame(this.onResize);window.addEventListener('resize',this.onResize);if(window.ResizeObserver){this.fitRO=new ResizeObserver(this.onResize);this.fitRO.observe(document.documentElement);}
+    this.buildMaps('en');
+    const c=navigator.connection;if(c&&c.downlink)this.setState({net:c});
+    if(navigator.xr){Promise.all([navigator.xr.isSessionSupported('immersive-ar').catch(()=>false),navigator.xr.isSessionSupported('immersive-vr').catch(()=>false)]).then(([ar,vr])=>this.setState({xr:{ar,vr}}));}
+  }
+  componentWillUnmount(){clearInterval(this.ticker);window.removeEventListener('resize',this.onResize);this.fitRO&&this.fitRO.disconnect();try{this.rec&&this.rec.abort();window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}clearTimeout(this.recogTo);clearTimeout(this.lookTo);clearInterval(this.timer);clearTimeout(this.to);this.stopCam();this.disposeThree();}
+  componentDidUpdate(pp,ps){
+    if(ps.screen!==this.state.screen)this.onEnter(this.state.screen,ps.screen);
+    if(ps.lang!==this.state.lang)this.buildMaps(this.L);
+    if(this.state.screen==='model'&&!this.three&&!this.initing&&this.threeEl)this.initThree();
+    if(this.chatEl&&(this.state.msgs.length!==ps.msgs.length||this.state.typing!==ps.typing))this.chatEl.scrollTop=this.chatEl.scrollHeight;
+    if(this.stream&&this.videoEl&&this.videoEl.srcObject!==this.stream){this.videoEl.srcObject=this.stream;this.videoEl.play().catch(()=>{});}
+  }
+  setLang(l){try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}this.setState({lang:l,msgs:[]});if(this.state.screen==='lang')this.go('welcome');}
+  go(k){const cs=['scan','ar','guide'];const patch={screen:k};if(cs.includes(k)&&this.state.cam==='none')patch.cam='demo';if(k==='guide'){patch.step=0;patch.recog=false;patch.restart=0;patch.restarted=false;clearTimeout(this.recogTo);this.recogTo=setTimeout(()=>this.setState({recog:true}),1400);}if(k!=='lang'&&!this.state.lang)patch.lang='en';this.setState(patch);}
+  onEnter(s,prev){
+    clearInterval(this.timer);clearTimeout(this.to);
+    if(prev==='model')this.disposeThree();
+    if(s==='measure'){this.mLast=Date.now();this.setState({mStep:0});}
+    if(s==='model'){this.initTries=0;setTimeout(()=>this.initThree(),30);}
+  }
+  scanTarget(){return this.state.mode==='device'?'guide':'scan';}
+  async requestCam(){
+    if(this.props.forceDemo){this.setState({cam:'demo'});this.go(this.scanTarget());return;}
+    try{const st=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});this.stream=st;this.setState({cam:'live',camErr:''},()=>this.go(this.scanTarget()));}
+    catch(e){this.setState({cam:'demo',camErr:e.name||'blocked'});setTimeout(()=>this.go(this.scanTarget()),900);}
+  }
+  stopCam(){if(this.stream){this.stream.getTracks().forEach(t=>t.stop());this.stream=null;}}
+  buildMaps(lang){
+    const W=250,H=200,S=25;const old=this.maps;this.maps={};
+    for(const p of ['current','recommended','extender']){
+      let tex,stats;
+      if(old&&old[p]){tex=old[p].tex;stats=old[p].stats;}
+      else{tex=document.createElement('canvas');tex.width=W;tex.height=H;const ctx=tex.getContext('2d');const img=ctx.createImageData(W,H);let s=0,m=0,w=0;
+        for(let j=0;j<H;j++)for(let i=0;i<W;i++){const v=signal(p,(i+.5)/S,(j+.5)/S);const c=heat(v);const k=(j*W+i)*4;img.data[k]=c[0];img.data[k+1]=c[1];img.data[k+2]=c[2];img.data[k+3]=255;if(v>=-60)s++;else if(v>=-70)m++;else w++;}
+        ctx.putImageData(img,0,0);const tot=W*H,pc=n=>Math.round(n/tot*100)+'%';stats={s:pc(s),m:pc(m),w:pc(w)};}
+      const map=document.createElement('canvas');map.width=W*2;map.height=H*2;const g=map.getContext('2d');g.drawImage(tex,0,0,W*2,H*2);
+      g.strokeStyle='#0B2545';g.lineCap='round';
+      g.lineWidth=10;for(const [a,b,c,d] of OUTER){g.beginPath();g.moveTo(a*50,b*50);g.lineTo(c*50,d*50);g.stroke();}
+      g.lineWidth=6;for(const [a,b,c,d] of INNER){g.beginPath();g.moveTo(a*50,b*50);g.lineTo(c*50,d*50);g.stroke();}
+      g.fillStyle='rgba(11,37,69,.85)';
+      if(lang==='ar'){g.font='700 18px "IBM Plex Sans Arabic", sans-serif';g.direction='rtl';g.textAlign='right';for(const r of ROOMS)g.fillText(r.n.ar,r.x1*50-16,r.y0*50+30);}
+      else{g.font='700 18px Tajawal, sans-serif';g.textAlign='left';for(const r of ROOMS)g.fillText(r.n.en,r.x0*50+16,r.y0*50+30);}
+      this.maps[p]={tex,url:'',stats};const key=p;
+      map.toBlob(b=>{if(b&&this.maps&&this.maps[key]){this.maps[key].url=URL.createObjectURL(b);this.forceUpdate();}},'image/png');
+    }
+    this.setState({maps:true});
+  }
+  async initThree(){
+    if(this.three||this.initing)return;
+    if(!this.threeEl||!this.maps){if(this.state.screen==='model'){if(++this.initTries>40){this.setState({threeMsg:'start'});return;}setTimeout(()=>this.initThree(),100);}return;}
+    this.initing=true;let THREE=this.THREE;
+    if(!THREE){for(const u of ['https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js','https://unpkg.com/three@0.160.0/build/three.module.js','https://esm.sh/three@0.160.0']){try{THREE=await import(u);break;}catch(e){}}}
+    this.initing=false;
+    if(!THREE){this.setState({threeMsg:'load'});return;}
+    this.THREE=THREE;
+    const host=this.threeEl;if(!host||this.state.screen!=='model'||this.three)return;
+    const w=host.clientWidth||370,h=host.clientHeight||400;
+    let r;try{r=new THREE.WebGLRenderer({antialias:true,alpha:true});}catch(e){this.setState({threeMsg:'webgl'});return;}
+    r.setPixelRatio(Math.min(2,window.devicePixelRatio||1));r.setSize(w,h);r.outputColorSpace=THREE.SRGBColorSpace;
+    r.domElement.style.display='block';r.domElement.style.touchAction='none';host.appendChild(r.domElement);
+    const scene=new THREE.Scene();const cam=new THREE.PerspectiveCamera(40,w/h,0.1,100);
+    scene.add(new THREE.HemisphereLight(0xffffff,0x334466,1.2));const dl=new THREE.DirectionalLight(0xffffff,1.3);dl.position.set(4,10,6);scene.add(dl);
+    const texs={};for(const k in this.maps){const t=new THREE.CanvasTexture(this.maps[k].tex);t.colorSpace=THREE.SRGBColorSpace;texs[k]=t;}
+    const floorMat=new THREE.MeshBasicMaterial({map:texs[this.state.place]});
+    const floor=new THREE.Mesh(new THREE.PlaneGeometry(10,8),floorMat);floor.rotation.x=-Math.PI/2;scene.add(floor);
+    const slab=new THREE.Mesh(new THREE.BoxGeometry(10.4,0.25,8.4),new THREE.MeshStandardMaterial({color:0x1b4450}));slab.position.y=-0.13;scene.add(slab);
+    const wallMat=new THREE.MeshStandardMaterial({color:0xeef2f7,transparent:true,opacity:0.72});
+    for(const [x1,y1,x2,y2] of [...OUTER,...INNER]){const len=Math.hypot(x2-x1,y2-y1);const m=new THREE.Mesh(new THREE.BoxGeometry(len+0.1,1.1,0.1),wallMat);m.position.set((x1+x2)/2-5,0.55,(y1+y2)/2-4);m.rotation.y=-Math.atan2(y2-y1,x2-x1);scene.add(m);}
+    const mkMarker=(color)=>{const g=new THREE.Group();const b=new THREE.Mesh(new THREE.BoxGeometry(0.45,0.16,0.3),new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:0.5}));b.position.y=0.1;g.add(b);const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.025,0.025,1.6),new THREE.MeshBasicMaterial({color}));pole.position.y=0.9;g.add(pole);const top=new THREE.Mesh(new THREE.SphereGeometry(0.14,20,14),new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:0.6}));top.position.y=1.75;g.add(top);scene.add(g);return g;};
+    const router=mkMarker(0x00b3a6);const ext=mkMarker(0x6fa0ff);ext.position.set(POS.extender.x-5,0,POS.extender.y-4);
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(0.45,0.05,10,48),new THREE.MeshBasicMaterial({color:0x6fa0ff}));ring.rotation.x=-Math.PI/2;ring.position.set(POS.recommended.x-5,0.05,POS.recommended.y-4);scene.add(ring);
+    for(const rm of ROOMS){const v=signal('current',rm.cx,rm.cy);const c=new THREE.Color(sigColor(v));const p=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.9,20),new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:0.3}));p.position.set(rm.cx-5,0.45,rm.cy-4);scene.add(p);}
+    const orb={theta:-0.55,phi:0.92,rad:16};let drag=null;const el=r.domElement;
+    el.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY};el.setPointerCapture(e.pointerId);});
+    el.addEventListener('pointermove',e=>{if(!drag)return;orb.theta-=(e.clientX-drag.x)*0.008;orb.phi=Math.max(0.25,Math.min(1.4,orb.phi-(e.clientY-drag.y)*0.006));drag={x:e.clientX,y:e.clientY};});
+    el.addEventListener('pointerup',()=>{drag=null;});
+    el.addEventListener('wheel',e=>{e.preventDefault();orb.rad=Math.max(8,Math.min(26,orb.rad+e.deltaY*0.01));},{passive:false});
+    const target=new THREE.Vector3();
+    r.setAnimationLoop((t)=>{const p=this.state.place;const pos=p==='recommended'?POS.recommended:POS.current;target.set(pos.x-5,0,pos.y-4);router.position.lerp(target,0.08);
+      ext.visible=p==='extender';ring.visible=p==='current';const s=1+0.15*Math.sin((t||0)/300);ring.scale.set(s,s,s);
+      if(!r.xr.isPresenting){cam.position.set(orb.rad*Math.sin(orb.phi)*Math.sin(orb.theta),orb.rad*Math.cos(orb.phi),orb.rad*Math.sin(orb.phi)*Math.cos(orb.theta));cam.lookAt(0,0,0);}
+      r.render(scene,cam);});
+    this.three={r,floorMat,texs,host};
+  }
+  disposeThree(){const t=this.three;if(!t)return;t.r.setAnimationLoop(null);t.r.dispose();if(t.r.domElement.parentNode)t.r.domElement.parentNode.removeChild(t.r.domElement);this.three=null;}
+  setPlace(p){this.setState({place:p});if(this.three){this.three.floorMat.map=this.three.texs[p];this.three.floorMat.needsUpdate=true;}}
+  enterVR(){
+    if(this.state.xr.vr&&this.three){const r=this.three.r;r.xr.enabled=true;navigator.xr.requestSession('immersive-vr',{optionalFeatures:['local-floor']}).then(s=>r.xr.setSession(s)).catch(()=>this.setState({threeMsg:'vrBlocked'}));}
+    else this.setState({threeMsg:'noVR'});
+  }
+  startRestart(){this.setState({restart:90});clearInterval(this.timer);this.timer=setInterval(()=>this.setState(st=>{if(st.restart<=15){clearInterval(this.timer);return {restart:0,restarted:true};}return {restart:st.restart-15};}),500);}
+  // assistant
+  openChat(){const st=this.state,X=(a,b)=>this.X(a,b);const p={chatOpen:true};if(!st.msgs.length){const ctxChip=['scan','ar','guide','model'].includes(st.screen)?[{say:X('Help with this step','ساعدني في هذه الخطوة'),intent:'help'}]:[];
+    p.msgs=[{from:'ai',text:X('Hi'+(st.account?' J.':'')+', I’m Ava. Tell me what’s wrong — type, or tap the mic and say it.','مرحبًا، أنا آفا. أخبرني ما المشكلة — اكتب أو اضغط الميكروفون وتحدّث.'),
+      chips:[...ctxChip,{say:X('Wi‑Fi is slow in some rooms','Wi‑Fi بطيء في بعض الغرف'),intent:'coverage'},{say:X('No internet at all','لا يوجد إنترنت إطلاقًا'),intent:'outage'},{say:X('One device is slow','جهاز واحد بطيء'),intent:'device'},{say:X('Router lights look wrong','أضواء الراوتر غير طبيعية'),intent:'router'}]}];}
+    this.setState(p);}
+  camGo(t){this.setState({chatOpen:false});this.go(this.state.cam==='none'?'permission':t);}
+  camTo(t){if(this.state.cam==='none'&&!this.props.forceDemo&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false}).then(st=>{this.stream=st;this.setState({cam:'live'});}).catch(()=>{});}this.go(t);}
+  chipAct(c){
+    if(c.say)return this.sendMsg(c.say,c.intent);
+    const a=c.go;this.setState({chatOpen:false});
+    if(a==='scanRoom'){this.setState({mode:'room',roomIdx:c.room??this.state.roomIdx,progress:0});this.camGo('scan');}
+    else if(a==='scanDevice'){this.setState({mode:'device'});this.camGo('guide');}
+    else if(a==='agent'){this.setState({escalated:true});this.go('outcome');}
+    else this.go(a);
+  }
+  detect(x){
+    const ri=ROOMS.findIndex(r=>x.includes(r.id)||x.includes(r.n.en.toLowerCase())||x.includes(r.n.ar));
+    if(/help with this step|ساعدني في هذه الخطوة/.test(x))return 'help';
+    if(ri>=0)return 'room:'+ri;
+    if(/agent|human|person|call|complain|someone|موظف|شخص|اتصال|شكوى|إنسان/.test(x))return 'agent';
+    if(/report|before|after|improv|تقرير|قبل|بعد|تحسن/.test(x))return 'report';
+    if(/no internet|not working|down|outage|offline|nothing works|dropp|لا يوجد إنترنت|لا يعمل|انقطاع|مقطوع|ينقطع|متوقف/.test(x))return 'outage';
+    if(/light|amber|orange|red|blink|flash|router|cable|restart|ضوء|أضواء|راوتر|كابل|برتقالي|أحمر|يومض|إعادة تشغيل/.test(x))return 'router';
+    if(/only that device|ذلك الجهاز فقط/.test(x))return 'onlyDevice';
+    if(/laptop|pc|computer|console|xbox|playstation|one device|just one|only my|حاسوب|لابتوب|كمبيوتر|جهاز واحد|بلايستيشن|تلفاز/.test(x))return 'device';
+    if(/everything|slow|room|dead|weak|signal|coverage|buffer|lag|بطيء|بطء|ضعيف|غرفة|الغرف|تغطية|إشارة|ميت|تقطيع/.test(x))return 'coverage';
+    return 'other';
+  }
+  intent(t,given){
+    const X=(a,b)=>this.X(a,b),sk=this.props.scenario??'wifi',C=this.ctx||{},lang=this.L,low=s=>lang==='ar'?s:s.toLowerCase();
+    const it=given||this.detect(t.toLowerCase());
+    const contact={label:X('Contact support','تواصل مع الدعم'),go:'agent'};
+    if(it==='help'){const m={guide:(C.guideTitle||'')+'. '+(C.guideBody||'')+X(' I’ve outlined it in orange on your camera view.',' حدّدته باللون البرتقالي على عرض الكاميرا.'),
+      scan:X('Walk slowly and sweep each wall, then the floor. I mark obstacles like metal, mirrors and thick walls as I spot them.','امشِ ببطء وامسح كل جدار ثم الأرضية. سأحدد العوائق مثل المعادن والمرايا والجدران السميكة عند اكتشافها.'),
+      ar:X('Green is strong, yellow moderate, red weak. The colours are estimated from 4 points we actually measured; the dashed ring is where I’d move the router.','الأخضر قوي والأصفر متوسط والأحمر ضعيف. الألوان تقديرية من 4 نقاط قسناها فعليًا، والدائرة المتقطعة هي الموقع المقترح للراوتر.'),
+      model:X('Drag to look around. Switch between Current, Move router and Add extender to compare estimated coverage.','اسحب للتجوّل. بدّل بين الحالي ونقل الراوتر وإضافة مقوٍّ لمقارنة التغطية التقديرية.')};
+      return {text:m[C.screen]||X('Tell me what you see and I’ll guide you.','أخبرني بما تراه وسأرشدك.'),chips:[]};}
+    if(it.startsWith('room:')){const i=+it.split(':')[1];const s=C.samples[i];const weak=s.cur<-70;
+      return {text:X('The '+low(s.name)+' measured '+s.cur+' dBm during your scan'+(weak?' — that’s a weak spot.':'.')+' Want to scan it again with your camera so I can check for obstacles?','سجّلت '+s.name+' إشارة '+s.cur+' dBm أثناء المسح'+(weak?' — وهي نقطة ضعيفة.':'.')+' هل تريد مسحها مجددًا بالكاميرا لأتحقق من العوائق؟'),
+        chips:[{label:X('Scan the '+low(s.name),'امسح '+s.name),go:'scanRoom',room:i},{label:X('See coverage in AR','شاهد التغطية بالواقع المعزز'),go:'ar'}]};}
+    if(it==='agent')return {text:X('I can connect you to an agent now. Your scan, measurements and the checks you’ve done go with it, so you won’t have to repeat anything.','يمكنني تحويلك إلى موظف الآن. سيُرسَل معك المسح والقياسات والفحوصات التي أجريتها، فلن تحتاج لتكرار أي شيء.'),chips:[contact]};
+    if(it==='report')return {text:X('Your treatment report compares speed, signal and coverage before and after the fix.','يقارن تقرير المعالجة السرعة والإشارة والتغطية قبل الإصلاح وبعده.'),chips:[{label:X('Open report','افتح التقرير'),go:'report'}]};
+    if(it==='outage')return sk==='network'?{text:X('I checked our network: there’s a fault at street cabinet 14B affecting 46 homes, including yours. Engineers expect it fixed by 18:00.','فحصت شبكتنا: يوجد عطل في كابينة الشارع 14B يؤثر على 46 منزلًا من بينها منزلك. يتوقع المهندسون إصلاحه بحلول 18:00.'),chips:[{label:X('See network impact','عرض تأثير الشبكة'),go:'impact'},contact]}
+      :{text:X('No faults near you on our side. Let’s check your router — point your camera at it and I’ll highlight each light and cable.','لا توجد أعطال قريبة منك من جهتنا. لنفحص الراوتر — وجّه الكاميرا نحوه وسأحدد كل ضوء وكابل.'),chips:[{label:X('Scan the router','امسح الراوتر'),go:'scanDevice'}]};
+    if(it==='router')return {text:X('Let’s look at it together. Point your camera at the router and I’ll highlight the power light, the internet light and the WAN cable one at a time.','لننظر إليه معًا. وجّه الكاميرا نحو الراوتر وسأحدد ضوء الطاقة وضوء الإنترنت وكابل WAN واحدًا تلو الآخر.'),chips:[{label:X('Scan the router','امسح الراوتر'),go:'scanDevice'}]};
+    if(it==='device')return {text:X('Is it only that device, or are other devices slow in the same room too?','هل المشكلة في ذلك الجهاز فقط، أم أن أجهزة أخرى بطيئة في الغرفة نفسها؟'),chips:[{say:X('Only that device','ذلك الجهاز فقط'),intent:'onlyDevice'},{say:X('Everything in that room','كل الأجهزة في تلك الغرفة'),intent:'coverage'}]};
+    if(it==='onlyDevice')return {text:sk==='device'?X('Found it — the router shows your laptop on the slow 2.4 GHz band at 54 Mbps. Rejoining the 5 GHz network should fix it.','وجدتها — يُظهر الراوتر أن حاسوبك على نطاق 2.4 GHz البطيء بسرعة 54 Mbps. إعادة الاتصال بشبكة 5 GHz ستحل المشكلة.'):X('The router shows it connected normally. Let’s check the connection details.','يُظهر الراوتر أنه متصل بشكل طبيعي. لنتحقق من تفاصيل الاتصال.'),chips:[{label:X('See diagnosis','عرض التشخيص'),go:'diagnosis'}]};
+    if(it==='coverage')return {text:X('Sounds like a coverage problem. Which room is worst?','يبدو أنها مشكلة تغطية. أي غرفة هي الأسوأ؟'),chips:ROOMS.map((r,i)=>({say:r.n[lang],intent:'room:'+i}))};
+    return {text:X('Got it. Is the internet slow, dropping out, or not working at all?','فهمت. هل الإنترنت بطيء أم ينقطع أم لا يعمل إطلاقًا؟'),chips:[{say:X('Slow in some rooms','بطيء في بعض الغرف'),intent:'coverage'},{say:X('Keeps dropping','ينقطع باستمرار'),intent:'outage'},{say:X('Not working at all','لا يعمل إطلاقًا'),intent:'outage'}]};
+  }
+  async sendMsg(raw,given){
+    const t=(raw||'').trim();if(!t||this.state.typing)return;
+    this.setState(s=>({msgs:[...s.msgs,{from:'me',text:t}],chatInput:'',typing:true}));
+    const r=this.intent(t,given);let text=r.text;const ar=this.L==='ar';
+    if(window.claude&&window.claude.complete){
+      try{const C=this.ctx||{};const out=await window.claude.complete({max_tokens:220,system:'You are Ava, a warm, concise broadband support assistant in a mobile web app with camera scanning, AR and 3D Wi‑Fi views. Reply in at most 2 short sentences, plain text, no markdown, no emoji. Never claim the camera can measure Wi‑Fi signal. Keep the facts in the draft reply exactly; you may rephrase it to fit what the customer said. '+(ar?'Always reply in Modern Standard Arabic.':'Always reply in English.'),messages:[{role:'user',content:'Context: '+C.summary+'\nCurrent screen: '+C.screen+'\nCustomer: "'+t+'"\nDraft reply: '+r.text}]});if(out&&out.trim())text=out.trim();}catch(e){}
+    }
+    this.setState(s=>({typing:false,msgs:[...s.msgs,{from:'ai',text,chips:r.chips}]}));
+    if(this.state.voice&&window.speechSynthesis){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=ar?'ar-SA':'en-GB';speechSynthesis.speak(u);}catch(e){}}
+  }
+  toggleMic(){
+    if(this.state.listening){try{this.rec.stop();}catch(e){}return;}
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){this.setState(s=>({msgs:[...s.msgs,{from:'ai',text:this.X('Voice input isn’t available in this browser — please type instead.','الإدخال الصوتي غير متاح في هذا المتصفح — يُرجى الكتابة.'),chips:[]}]}));return;}
+    try{const rec=new SR();this.rec=rec;rec.lang=this.L==='ar'?'ar-SA':'en-GB';rec.interimResults=false;rec.maxAlternatives=1;
+      rec.onresult=e=>{this.sendMsg(e.results[0][0].transcript);};rec.onerror=()=>this.setState({listening:false});rec.onend=()=>this.setState({listening:false});
+      rec.start();this.setState({listening:true});}catch(e){this.setState({listening:false});}
+  }
+  renderVals(){
+    this.BP=this.props.primaryColor||'#1554A8';const brand={primary:this.BP,accent:this.props.accentColor||'#F28C28'};
+    const st=this.state,sk=this.props.scenario??'wifi',S=SCEN[sk]||SCEN.wifi,scr=st.screen,lang=this.L,isAr=lang==='ar';
+    const X=(a,b)=>isAr?b:a,low=s=>isAr?s:s.toLowerCase(),ARW=isAr?'←':'→';
+    const t=isAr?T_AR:T_EN;
+    const iso=s=>isAr&&typeof s==='string'?s.replace(/[-+−]?\d[\d.,:]*(?:\s?(?:dBm|dB|Mbps|ms|GHz|%|m))?(?:\s?[→←]\s?[-+−]?\d[\d.,]*(?:\s?(?:dBm|dB|Mbps|ms|%))?)?/g,m=>'\u2066'+m+'\u2069'):s;
+    const TAG=k=>({tag:TAGT[lang][k],bg:TAGC[k][0],fg:TAGC[k][1]});
+    const is={};SCREENS.forEach(k=>is[k]=scr===k);
+    const dark=['lang','scan','ar','guide','model'].includes(scr),camScreen=['scan','ar','guide'].includes(scr);
+    const nav={};SCREENS.forEach(k=>nav[k]=()=>this.go(k));
+    const idx=SCREENS.indexOf(scr);
+    const flow=SCREENS.map((k,i)=>({n:String(i+1).padStart(2,'0'),label:LABELS[i],onClick:nav[k],bg:i===idx?'#0B2545':'transparent',fg:i===idx?'#FFFFFF':(i<idx?'#1F2937':'#6B7280'),numFg:i===idx?(this.props.accentColor||'#F28C28'):(i<idx?'#1F8A57':'#8A94A6')}));
+    const maps=this.maps||{};const url=k=>maps[k]?maps[k].url:'';const stats=k=>maps[k]?maps[k].stats:{s:'0%',m:'0%',w:'0%'};
+    const samples=ROOMS.map(r=>({...r,name:r.n[lang],cur:Math.round(signal('current',r.cx,r.cy)),rec:Math.round(signal('recommended',r.cx,r.cy)),ext:Math.round(signal('extender',r.cx,r.cy))}));
+    const worst=samples.reduce((a,b)=>b.cur<a.cur?b:a);const best=samples.reduce((a,b)=>b.cur>a.cur?b:a);const rs=samples.find(s=>s.id===worst.id);
+    // scan
+    const room=samples[st.roomIdx],done=st.progress>=100;
+    const scan={room:room.name,roomNum:st.roomIdx+1,pct:st.progress+'%',
+      objects:OBJECTS[room.id].filter(o=>st.progress>=o.at).map(o=>({label:o[lang],impact:IMPACT_T[lang][o.impact],left:o.l+'%',top:o.t+'%',width:o.w+'%',height:o.h+'%',color:IMPACT[o.impact]})),
+      mini:ROOMS.map((r,i)=>({left:r.x0*10+'%',top:r.y0/8*100+'%',w:(r.x1-r.x0)*10+'%',h:(r.y1-r.y0)/8*100+'%',border:i===st.roomIdx?(this.props.accentColor||'#F28C28'):(i<st.roomIdx?'#6FA0FF':'rgba(255,255,255,.25)'),bg:i<st.roomIdx?'rgba(111,160,255,.35)':(i===st.roomIdx?'rgba(242,140,40,'+(st.progress/250)+')':'transparent')})),
+      hint:done?(st.roomIdx<3?X('Room captured. Walk to the '+low(samples[st.roomIdx+1].name)+'.','تم التقاط الغرفة. انتقل إلى '+samples[st.roomIdx+1].name+'.'):X('Room captured. All rooms mapped.','تم التقاط الغرفة. اكتمل رسم جميع الغرف.')):X('Move slowly — sweep the walls, then the floor.','تحرّك ببطء — امسح الجدران ثم الأرضية.'),
+      showSample:st.progress>=50,sample:room.cur+' dBm',sampleColor:sigColor(room.cur),
+      nextLabel:done?(st.roomIdx<3?X('Next room','الغرفة التالية'):X('Finish scan','إنهاء المسح')):X('Scanning… ','جارٍ المسح… ')+st.progress+'%',nextBg:done?this.BP:'#9AA4B5',
+      onNext:()=>{if(this.state.progress<100)return;if(this.state.roomIdx<3)this.setState(s=>({roomIdx:s.roomIdx+1,progress:0}));else this.go('measure');}};
+    // measure
+    const bad=c=>c?'#C0313A':'#1F2937';const LT=X('ISP line test','اختبار الخط'),RA=X('Router API','واجهة الراوتر');
+    const rowsDef=[
+      [X('Router status','حالة الراوتر'),S.status[lang],RA,sk==='router'],
+      [X('Speed at router (wired)','السرعة عند الراوتر (سلكي)'),S.wired+' / '+S.plan+' Mbps',LT,S.wired<S.plan*0.5],
+      [X('Latency','زمن الاستجابة'),S.lat+' ms',LT,S.lat>40],
+      [X('Jitter · packet loss','التذبذب · فقد الحزم'),S.jit+' ms · '+S.loss+'%',LT,S.loss>1],
+      [X('Wi‑Fi at this phone','Wi‑Fi على هذا الهاتف'),samples[0].cur+' dBm · 5 GHz',X('This phone','هذا الهاتف'),false],
+      [X('Connected devices','الأجهزة المتصلة'),sk==='device'?X('Laptop · 2.4 GHz · 54 Mbps','حاسوب محمول · 2.4 GHz · 54 Mbps'):X('6 devices · all on 5 GHz','6 أجهزة · كلها على 5 GHz'),RA,sk==='device'],
+      [X('Room samples (4)','عينات الغرف (4)'),X('best ','الأفضل ')+best.cur+X(' · worst ',' · الأسوأ ')+worst.cur,X('This phone, during scan','هذا الهاتف أثناء المسح'),worst.cur<-70],
+      [X('Network in your area','الشبكة في منطقتك'),S.area[lang],X('ISP systems','أنظمة المزود'),sk==='network']];
+    const measureRows=rowsDef.map((r,i)=>{const ok=st.mStep>i;return {label:r[0],value:ok?r[1]:X('Measuring…','جارٍ القياس…'),source:r[2],color:ok?bad(r[3]):'#8A94A6',tag:TAGT[lang].M,tagBg:ok?'#E3ECFD':'#EEF2F8',tagFg:ok?'#1D4FBF':'#8A94A6'};});
+    const mDone=st.mStep>=8;const net=st.net;
+    const browserNet=net?X('This browser also reports ~'+net.downlink+' Mbps / '+net.rtt+' ms ('+net.effectiveType+') — a rough estimate, not used for diagnosis.','يُبلغ هذا المتصفح أيضًا عن ~'+net.downlink+' Mbps / '+net.rtt+' ms ('+net.effectiveType+') — تقدير تقريبي لا يُستخدم في التشخيص.'):X('The camera can’t measure Wi‑Fi — these values come from your router, our network and this phone.','الكاميرا لا تقيس Wi‑Fi — هذه القيم من الراوتر وشبكتنا وهذا الهاتف.');
+    // AR
+    const ap=st.arPlace,apS=stats(ap);
+    const pins=samples.map(s=>{const v=ap==='current'?s.cur:s.rec;return {left:s.cx*10+'%',top:s.cy/8*100+'%',value:v+' dBm',color:sigColor(v),borderStyle:ap==='current'?'solid':'dashed'};});
+    const rp=ap==='current'?POS.current:POS.recommended;
+    const dist=Math.hypot(POS.recommended.x-POS.current.x,POS.recommended.y-POS.current.y).toFixed(1);
+    const arV={mapBg:url(ap)?'url('+url(ap)+')':'none',pins,routerLeft:rp.x*10+'%',routerTop:rp.y/8*100+'%',showTarget:ap==='current',stats:apS,
+      curBg:ap==='current'?this.BP:'transparent',recBg:ap==='recommended'?this.BP:'transparent',curFg:ap==='current'?'#FFFFFF':'#0B2545',recFg:ap==='recommended'?'#FFFFFF':'#0B2545',
+      setCurrent:()=>this.setState({arPlace:'current'}),setRec:()=>this.setState({arPlace:'recommended'}),
+      headline:ap==='current'?X('Weak signal in the '+low(worst.name),'إشارة ضعيفة في '+worst.name):X('Move router to the hallway shelf','انقل الراوتر إلى رف الممر'),
+      sub:ap==='current'?X('Router is in the corner, inside a cabinet. Dashed ring marks a better spot '+dist+' m away.','الراوتر في الزاوية داخل خزانة. الدائرة المتقطعة تحدد موقعًا أفضل على بُعد '+dist+' م.'):X('Expected: '+worst.name+' '+worst.cur+' → '+rs.rec+' dBm. Pins show estimates (dashed).','المتوقع: '+worst.name+' من '+worst.cur+' إلى '+rs.rec+' dBm. العلامات تقديرية (متقطعة).'),
+      primaryLabel:st.fromDiag&&sk==='wifi'?X('I’ve moved it — re-test','نقلته — أعد الاختبار'):X('Open diagnosis','افتح التشخيص'),
+      primary:()=>{if(this.state.fromDiag&&sk==='wifi')this.go('outcome');else this.go('diagnosis');}};
+    const xrArText=st.xr.ar?X('WEBXR AR READY','WebXR AR جاهز'):X('CAMERA OVERLAY MODE','وضع التراكب على الكاميرا');
+    // model
+    const PL=[['current',X('Current','الحالي')],['recommended',X('Move router','نقل الراوتر')],['extender',X('Add extender','إضافة مقوٍّ')]];
+    const places=PL.map(([k,l])=>({label:l,onClick:()=>this.setPlace(k),bg:st.place===k?this.BP:'transparent',fg:st.place===k?'#FFFFFF':'#0B2545'}));
+    const modelStats=stats(st.place);
+    const modelNote=st.place==='current'?X('Router in a corner cabinet. Blue ring = recommended spot.','الراوتر في خزانة بالزاوية. الحلقة الزرقاء = الموقع المقترح.'):st.place==='recommended'?X('Estimated after moving the router '+dist+' m to the hallway. Free, 5 minutes.','تقدير بعد نقل الراوتر '+dist+' م إلى الممر. مجانًا وخلال 5 دقائق.'):X('Estimated with an extender in the office doorway. Keeps router where it is.','تقدير مع مقوٍّ عند باب المكتب. يبقى الراوتر في مكانه.');
+    const modelWeakColor=parseInt(modelStats.w)>15?'#FF6B6F':'#7EE0A8';
+    const TM={load:X('3D engine could not load on this connection.','تعذّر تحميل محرك الأبعاد الثلاثية على هذا الاتصال.'),webgl:X('WebGL is not available — 3D view needs a WebGL-capable browser.','WebGL غير متاح — يتطلب العرض ثلاثي الأبعاد متصفحًا يدعمه.'),start:X('3D view could not start on this device.','تعذّر تشغيل العرض ثلاثي الأبعاد على هذا الجهاز.'),vrBlocked:X('VR session was blocked — staying in 3D mode.','تم حظر جلسة الواقع الافتراضي — سنبقى في الوضع ثلاثي الأبعاد.'),noVR:X('No VR headset or WebXR VR support detected — you’re in standard 3D mode. Open this link in a headset browser for VR.','لم يتم اكتشاف نظارة واقع افتراضي أو دعم WebXR — أنت في الوضع ثلاثي الأبعاد العادي. افتح الرابط في متصفح النظارة لتجربة الواقع الافتراضي.')};
+    // dashboard extras
+    const C=326.73,dash=p=>(Math.max(0,Math.min(1,p))*C).toFixed(1)+' '+C;
+    const ICON={"speed":"M12 14l4-4 M3.5 16a9 9 0 1 1 17 0","clock":"M12 7v5l3 2 M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z","loss":"M3 12h4l2-5 4 10 2-5h6","wifi":"M5 12.5a10 10 0 0 1 14 0 M8.5 16a5 5 0 0 1 7 0 M12 19.5h.01","home":"M3 11l9-8 9 8 M5 9.5V21h5v-6h4v6h5V9.5","bars":"M5 20V10 M12 20V4 M19 20v-7","pulse":"M3 12h4l3-8 4 16 3-8h4","doc":"M6 3h9l4 4v14H6z M9 12h7 M9 16h7 M14 3v5h5"};
+    const shown=i=>st.mStep>i;const pctPlan=S.wired/S.plan;
+    const mdash={pct:mDone?Math.round(pctPlan*100)+'%':Math.round(st.mStep/8*100)+'%',dash:dash(mDone?pctPlan:st.mStep/8),
+      ringLabel:mDone?X('Speed at router vs your plan','السرعة عند الراوتر مقارنة بباقتك'):X('Measuring…','جارٍ القياس…'),speed:shown(1)?S.wired+' / '+S.plan+' Mbps':'—',tag:TAGT[lang].M,
+      tiles:[{icon:ICON.speed,label:X('Download','التنزيل'),value:shown(1)?S.wired+' Mbps':'—',color:shown(1)&&S.wired<S.plan*0.5?'#C0313A':'#0B2545'},
+        {icon:ICON.clock,label:X('Latency','زمن الاستجابة'),value:shown(2)?S.lat+' ms':'—',color:shown(2)&&S.lat>40?'#C0313A':'#0B2545'},
+        {icon:ICON.loss,label:X('Packet loss','فقد الحزم'),value:shown(3)?S.loss+'%':'—',color:shown(3)&&S.loss>1?'#C0313A':'#0B2545'},
+        {icon:ICON.wifi,label:X('Wi‑Fi here','Wi‑Fi هنا'),value:shown(4)?samples[0].cur+' dBm':'—',color:'#0B2545'}],
+      barsTitle:X('Signal by room','الإشارة حسب الغرفة'),
+      bars:samples.map((s,i)=>{const on=shown(6);const p=Math.max(.08,Math.min(1,(s.cur+95)/50));return {label:s.name,value:on?s.cur+'':'—',h:on?Math.round(p*100)+'%':'8%',fill:s.cur<-70?'#E25054':'linear-gradient(180deg,color-mix(in srgb,'+this.BP+' 55%,#FFFFFF),'+this.BP+')',color:on?sigColorLight(s.cur):'#9AA4B5'};})};
+    const ms=modelStats;
+    const modelRings=[[X('Strong','قوية'),ms.s,'#3FBE7A'],[X('Moderate','متوسطة'),ms.m,'#F0C448'],[X('Weak','ضعيفة'),ms.w,'#E25054']].map(([label,pct,color])=>({label,pct,color,dash:dash(parseInt(pct)/100)}));
+    const TABK=[['welcome',X('Home','الرئيسية'),ICON.home,['welcome','identify','permission']],['measure',X('Check','الفحص'),ICON.bars,['measure']],['diagnosis',X('Diagnosis','التشخيص'),ICON.pulse,['diagnosis','impact']],['report',X('Report','التقرير'),ICON.doc,['outcome','report']]];
+    const tabs={show:['welcome','measure','diagnosis','impact','outcome','report'].includes(scr),items:TABK.map(([k,label,icon,grp])=>{const on=grp.includes(scr);return {label,icon,onClick:nav[k],fg:on?this.BP:'#6B7280',bg:on?'color-mix(in srgb,'+this.BP+' 14%,#FFFFFF)':'transparent'};})};
+    // diagnosis
+    const T=(text,k)=>({text,...TAG(k)});
+    const Lc=(label,status,kind)=>{const m={ok:['#EAF7F0','#BFE6CF','#1F8A57'],warn:['#FFF6E0','#F2D896','#9A6B00'],bad:['#FDECEC','#F3B5B8','#C0313A']}[kind];return {label,status,bg:m[0],border:m[1],color:m[2]};};
+    const N=X('Network','الشبكة'),RT=X('Router','الراوتر'),RC=X('Room coverage','تغطية الغرف'),YD=X('Your devices','أجهزتك'),OK=X('OK','سليم'),PR=X('Problem','مشكلة'),W2=X('Weak in 2 rooms','ضعيفة في غرفتين');
+    const goAR=()=>{this.setState({arPlace:'recommended',fromDiag:true});this.go('ar');};
+    const escalate=()=>{this.setState({escalated:true});this.go('outcome');};
+    const sc=stats('current').w,sr=stats('recommended').w,se=stats('extender').w;
+    const D={
+      wifi:{title:X('Your broadband is fine — your Wi‑Fi isn’t reaching every room.','خدمة النطاق العريض سليمة — لكن Wi‑Fi لا يصل إلى كل الغرف.'),conf:'88%',locator:[Lc(N,OK,'ok'),Lc(RT,OK,'ok'),Lc(RC,PR,'bad'),Lc(YD,OK,'ok')],
+        evidence:[T(X(S.wired+' of '+S.plan+' Mbps arriving at the router','تصل '+S.wired+' من '+S.plan+' Mbps إلى الراوتر'),'M'),T(worst.name+': '+worst.cur+' dBm'+X(', ','، ')+mbps(worst.cur,S.wired)+' Mbps','M'),T(X('Router inside a TV cabinet, near a mirror','الراوتر داخل خزانة التلفاز بجوار مرآة'),'AC'),T(X('Moving it cuts weak area '+sc+' → '+sr,'نقله يقلل المناطق الضعيفة من '+sc+' إلى '+sr),'E')],
+        recs:[{n:'01',title:X('Move the router to the hallway shelf','انقل الراوتر إلى رف الممر'),body:X(dist+' m from where it is now. We’ll guide you with AR.','على بُعد '+dist+' م من موقعه الحالي. سنرشدك بالواقع المعزز.')},{n:'02',title:X('Can’t move it? Add an extender','لا يمكنك نقله؟ أضف مقوّي إشارة'),body:X('Office doorway. Weak area '+sc+' → '+se+' (estimated).','عند باب المكتب. المناطق الضعيفة '+sc+' '+ARW+' '+se+' (تقديري).')}],
+        primaryLabel:X('Show me where in AR','أرني المكان بالواقع المعزز'),primary:goAR,secondaryLabel:X('Check router hardware too','افحص الراوتر أيضًا'),secondary:nav.guide},
+      device:{title:X('Your broadband is fine — your laptop is holding it back.','خدمتك سليمة — الحاسوب المحمول هو سبب البطء.'),conf:'84%',locator:[Lc(N,OK,'ok'),Lc(RT,OK,'ok'),Lc(RC,X('Good here','جيدة هنا'),'ok'),Lc(YD,PR,'bad')],
+        evidence:[T(X(S.wired+' of '+S.plan+' Mbps arriving at the router','تصل '+S.wired+' من '+S.plan+' Mbps إلى الراوتر'),'M'),T(X('This phone gets '+mbps(samples[0].cur,S.wired)+' Mbps in the same room','يحصل هذا الهاتف على '+mbps(samples[0].cur,S.wired)+' Mbps في الغرفة نفسها'),'M'),T(X('Laptop links at 54 Mbps on 2.4 GHz','يتصل الحاسوب بسرعة 54 Mbps على 2.4 GHz'),'M'),T(X('Older Wi‑Fi 4 adapter is stuck on the slow band','محوّل Wi‑Fi 4 القديم عالق على النطاق البطيء'),'A')],
+        recs:[{n:'01',title:X('Switch the laptop to HubPro‑5G','حوّل الحاسوب إلى شبكة HubPro‑5G'),body:X('Forget the network, then rejoin the 5G name. About 2 minutes.','انسَ الشبكة ثم اتصل باسم 5G مجددًا. نحو دقيقتين.')},{n:'02',title:X('5G not listed? The adapter is too old','لا تظهر شبكة 5G؟ المحوّل قديم'),body:X('A USB Wi‑Fi 6 adapter or the LAN cable fixes it.','محوّل USB بتقنية Wi‑Fi 6 أو كابل LAN يحل المشكلة.')}],
+        primaryLabel:X('I’ve switched it — re-test','حوّلته — أعد الاختبار'),primary:nav.outcome,secondaryLabel:X('Check router hardware too','افحص الراوتر أيضًا'),secondary:nav.guide},
+      router:{title:X('Your router keeps dropping the connection.','الراوتر يفقد الاتصال باستمرار.'),conf:'82%',locator:[Lc(N,OK,'ok'),Lc(RT,PR,'bad'),Lc(RC,W2,'warn'),Lc(YD,OK,'ok')],
+        evidence:[T(X('9 restarts in the last 24 hours','9 إعادات تشغيل خلال آخر 24 ساعة'),'M'),T(X('Only '+S.wired+' of '+S.plan+' Mbps at the router','فقط '+S.wired+' من '+S.plan+' Mbps عند الراوتر'),'M'),T(X('Line test to the street cabinet is clean','اختبار الخط حتى كابينة الشارع سليم'),'M'),T(X('Pattern matches a loose WAN cable or overheating','النمط يطابق كابل WAN غير مثبت أو ارتفاع الحرارة'),'A')],
+        recs:[{n:'01',title:X('Check cables and restart','افحص الكابلات وأعد التشغيل'),body:X('Guided with your camera. About 3 minutes.','بإرشاد عبر الكاميرا. نحو 3 دقائق.')},{n:'02',title:X('Then take it out of the cabinet','ثم أخرجه من الخزانة'),body:X('Enclosed routers overheat — and it fixes the weak '+low(worst.name)+'.','الراوتر المغلق عليه يسخن — ونقله يحسّن '+worst.name+' أيضًا.')}],
+        primaryLabel:X('Start guided check','ابدأ الفحص الموجّه'),primary:nav.guide,secondaryLabel:X('Contact support','تواصل مع الدعم'),secondary:escalate},
+      network:{title:X('The problem is on our network, not in your home.','المشكلة في شبكتنا وليست في منزلك.'),conf:'91%',locator:[Lc(N,PR,'bad'),Lc(RT,OK,'ok'),Lc(RC,W2,'warn'),Lc(YD,OK,'ok')],
+        evidence:[T(X('Only '+S.wired+' of '+S.plan+' Mbps, even on a wired test','فقط '+S.wired+' من '+S.plan+' Mbps حتى في الاختبار السلكي'),'M'),T(X(S.loss+'% packet loss, '+S.lat+' ms latency','فقد حزم '+S.loss+'% وزمن استجابة '+S.lat+' ms'),'M'),T(X('Line errors at street cabinet 14B since 06:40','أخطاء في الخط عند كابينة الشارع 14B منذ 06:40'),'M'),T(X('A router restart is unlikely to help','إعادة تشغيل الراوتر غالبًا لن تفيد'),'A')],
+        recs:[{n:'01',title:X('Quick 2‑minute router check','فحص سريع للراوتر خلال دقيقتين'),body:X('Rules out your side so we can skip a technician visit.','يستبعد جانبك فنتجنب زيارة الفني.')},{n:'02',title:X('We open a case with your results','نفتح بلاغًا مرفقًا بنتائجك'),body:X('Line test, router logs and room map are attached automatically.','يُرفق اختبار الخط وسجلات الراوتر وخريطة الغرف تلقائيًا.')}],
+        primaryLabel:X('Start guided check','ابدأ الفحص الموجّه'),primary:nav.guide,secondaryLabel:X('Skip — contact support now','تخطَّ — تواصل مع الدعم الآن'),secondary:escalate}};
+    const diag0=D[sk]||D.wifi;
+    const diag={...diag0,dash:dash(parseInt(diag0.conf)/100),confLabel:X('AI · '+diag0.conf+' CONFIDENCE','ذكاء · ثقة '+diag0.conf),primaryLabel:X('See full assessment','عرض التقييم الكامل'),primary:nav.impact};
+    // impact
+    const SP=(label,status,kind,note)=>({...Lc(label,status,kind),note});
+    const IN=X('Inside your home','داخل منزلك'),OUT=X('Outside your home','خارج منزلك'),HEALTHY=X('Healthy','سليمة'),NORM=X('Line and street network normal','الخط وشبكة الشارع طبيعيان');
+    const LV={NONE:['#EAF7F0','#1F8A57',X('NONE','لا يوجد')],LOW:['#FFF6E0','#8A5A00',X('LOW','منخفض')],HIGH:['#FDECEC','#C0313A',X('HIGH','مرتفع')]};
+    const NN=X('Not needed','غير مطلوب');
+    const IMP={
+      wifi:{title:X('Indoor coverage issue — nothing is wrong outside your home.','مشكلة تغطية داخلية — لا يوجد أي خلل خارج منزلك.'),split:[SP(IN,PR,'bad',X('Weak Wi‑Fi in '+low(worst.name)+' and kitchen','Wi‑Fi ضعيف في '+worst.name+' والمطبخ')),SP(OUT,HEALTHY,'ok',NORM)],level:'NONE',
+        rows:[[X('Walls and a cabinet around the router block the signal','الجدران والخزانة حول الراوتر تحجب الإشارة'),'AC'],[X('Wi‑Fi in 2 rooms only — wired speed is normal','Wi‑Fi في غرفتين فقط — السرعة السلكية طبيعية'),'M'],[X('Only your home','منزلك فقط'),'A'],[X('No effect on neighbours or the street network','لا تأثير على الجيران أو شبكة الشارع'),'A']],
+        eta:X('≈ 5 min','≈ 5 د'),etaNote:X('You can fix this now by moving the router. No visit needed.','يمكنك إصلاحها الآن بنقل الراوتر. لا حاجة لزيارة.'),etaConf:'92%',actions:[X('Move the router to the hallway shelf','انقل الراوتر إلى رف الممر'),X('Re-test with this phone in each room','أعد الاختبار بهذا الهاتف في كل غرفة')],esc:NN,escKind:'ok'},
+      device:{title:X('Device issue — your home network and our network are fine.','مشكلة في الجهاز — شبكة منزلك وشبكتنا سليمتان.'),split:[SP(IN,X('Device','الجهاز'),'bad',X('Laptop stuck on slow 2.4 GHz band','الحاسوب عالق على نطاق 2.4 GHz البطيء')),SP(OUT,HEALTHY,'ok',NORM)],level:'NONE',
+        rows:[[X('Older laptop Wi‑Fi adapter joined the 2.4 GHz band','محوّل Wi‑Fi القديم في الحاسوب اتصل بنطاق 2.4 GHz'),'M'],[X('That laptop only — other devices are fast','ذلك الحاسوب فقط — باقي الأجهزة سريعة'),'M'],[X('Only your home','منزلك فقط'),'A'],[X('No effect outside the building','لا تأثير خارج المبنى'),'A']],
+        eta:X('≈ 2 min','≈ 2 د'),etaNote:X('Rejoin the 5 GHz network on the laptop.','أعد اتصال الحاسوب بشبكة 5 GHz.'),etaConf:'88%',actions:[X('Forget the network and rejoin HubPro‑5G','انسَ الشبكة واتصل بـ HubPro‑5G'),X('No 5G option? Use a USB Wi‑Fi 6 adapter or a cable','لا يوجد خيار 5G؟ استخدم محوّل USB بتقنية Wi‑Fi 6 أو كابلًا')],esc:NN,escKind:'ok'},
+      router:{title:X('Router fault inside your home — a small knock-on effect outside.','عطل في الراوتر داخل منزلك — مع تأثير بسيط خارجه.'),split:[SP(IN,PR,'bad',X('Router restarting 9× a day','الراوتر يعيد التشغيل 9 مرات يوميًا')),SP(OUT,X('Low impact','تأثير منخفض'),'warn',X('Extra load on cabinet 14B','حمل إضافي على الكابينة 14B'))],level:'LOW',
+        rows:[[X('Each restart forces a line re-sync with street cabinet 14B','كل إعادة تشغيل تفرض إعادة مزامنة الخط مع كابينة الشارع 14B'),'M'],[X('Your broadband and digital phone line','النطاق العريض وخط الهاتف الرقمي لديك'),'M'],[X('No neighbours affected yet','لم يتأثر أي من الجيران حتى الآن'),'A'],[X('If it continues, your port may be auto-throttled to protect the cabinet','إن استمر ذلك قد يُخفَّض منفذك تلقائيًا لحماية الكابينة'),'A']],
+        eta:X('≈ 10 min','≈ 10 د'),etaNote:X('Cable check and restart. Replacement router next day if restarts return.','فحص الكابل وإعادة التشغيل. راوتر بديل في اليوم التالي إن عادت المشكلة.'),etaConf:'81%',actions:[X('Check the WAN cable and restart (guided)','افحص كابل WAN وأعد التشغيل (بإرشاد)'),X('Take the router out of the cabinet to stop overheating','أخرج الراوتر من الخزانة لتجنّب ارتفاع الحرارة')],esc:X('Only if restarts continue — replacement pre-approved','فقط إن استمرت إعادة التشغيل — الاستبدال معتمد مسبقًا'),escKind:'warn'},
+      network:{title:X('External network fault — not caused by anything in your home.','عطل في الشبكة الخارجية — لا علاقة له بأي شيء في منزلك.'),split:[SP(IN,X('Minor','بسيطة'),'warn',X('Wi‑Fi weak in 2 rooms (separate issue)','Wi‑Fi ضعيف في غرفتين (مشكلة منفصلة)')),SP(OUT,X('Fault','عطل'),'bad',X('Line errors at cabinet 14B','أخطاء في الخط عند الكابينة 14B'))],level:'HIGH',
+        rows:[[X('Line card fault at street cabinet 14B since 06:40','عطل في بطاقة الخط بكابينة الشارع 14B منذ 06:40'),'M'],[X('Broadband, digital voice and TV streaming','النطاق العريض والصوت الرقمي وبث التلفاز'),'M'],[X('46 homes on Elm Road and Park Lane','46 منزلًا في شارع إلم وبارك لين'),'M'],[X('Speeds down up to 92%; calls may drop','انخفاض السرعة حتى 92% وقد تنقطع المكالمات'),'E']],
+        eta:X('≈ 3 h 20 m','≈ 3 س 20 د'),etaNote:X('Remote line card reset. Expected back to normal by 18:00 today.','إعادة ضبط بطاقة الخط عن بُعد. يُتوقع عودة الخدمة بحلول 18:00 اليوم.'),etaConf:'78%',actions:[X('Nothing to do at home — please don’t restart repeatedly','لا شيء مطلوب في المنزل — يُرجى عدم إعادة التشغيل مرارًا'),X('We’ll text you when service is restored','سنرسل لك رسالة عند عودة الخدمة')],esc:X('Raised to Network Operations · case NL‑48213','صُعّد إلى عمليات الشبكة · بلاغ NL‑48213'),escKind:'bad'}};
+    const I=IMP[sk]||IMP.wifi;
+    const ESC={ok:['#EAF7F0','#1F8A57'],warn:['#FFF6E0','#8A5A00'],bad:['#FDECEC','#C0313A']}[I.escKind];
+    const RL=[X('CAUSE','السبب'),X('AFFECTED SERVICES','الخدمات المتأثرة'),X('AFFECTED CUSTOMERS','العملاء المتأثرون'),X('POTENTIAL IMPACT','التأثير المحتمل')];
+    const impact={...I,rows:I.rows.map(([text,k],i)=>({text,...TAG(k),label:RL[i]})),level:LV[I.level][2],levelBg:LV[I.level][0],levelFg:LV[I.level][1],etaConfLabel:X('ESTIMATED · ','تقديري · ')+I.etaConf,
+      actions:I.actions.map((tx,i)=>({n:'0'+(i+1),text:tx})),escBg:ESC[0],escFg:ESC[1],
+      primaryLabel:diag0.primaryLabel,primary:diag0.primary,secondaryLabel:diag0.secondaryLabel,secondary:diag0.secondary};
+    // guide
+    const steps=[
+      {title:X('Point your camera at the router','وجّه الكاميرا نحو الراوتر'),body:X('Hold the phone about 1 m away with the front lights facing you.','أمسك الهاتف على بُعد متر تقريبًا مع توجيه الأضواء الأمامية نحوك.'),hl:'device',opts:[[X('That’s my router','هذا هو الراوتر'),1]]},
+      {title:X('Check the power light','تحقق من ضوء الطاقة'),body:X('The left light should be solid white.','يجب أن يكون الضوء الأيسر أبيض ثابتًا.'),hl:'power',opts:[[X('Solid white','أبيض ثابت'),1],[X('Off or flashing','مطفأ أو يومض'),1]]},
+      {title:X('Check the WAN cable','تحقق من كابل WAN'),body:X('The grey cable from the wall socket must click into the orange WAN port.','يجب أن يكون الكابل الرمادي القادم من المقبس مثبتًا في منفذ WAN البرتقالي.'),hl:'wan',opts:[[X('It’s secure','مثبت جيدًا'),1],[X('I pushed it back in','أعدت تثبيته'),1]]},
+      {title:X('What colour is the internet light?','ما لون ضوء الإنترنت؟'),body:X('Second light from the right.','الضوء الثاني من اليمين.'),hl:'internet',opts:[[X('White','أبيض'),1],[X('Amber','برتقالي'),1],[X('Off','مطفأ'),1]]},
+      {title:X('Restart the router','أعد تشغيل الراوتر'),body:X('Press the power button on the back once. We’ll watch the lights for you.','اضغط زر التشغيل في الخلف مرة واحدة. سنراقب الأضواء نيابةً عنك.'),hl:'button',opts:[[X('I’ve pressed it','ضغطت عليه'),'restart']]}];
+    const gs=steps[Math.min(st.step,4)];const restarting=st.restart>0;
+    const internetColor=restarting?'#3A4252':(st.restarted?S.after:S.internet);const lc=restarting?'#3A4252':'#F4F6FA';
+    const lights=[{left:'70px',color:restarting?'#59627A':'#F4F6FA'},{left:'100px',color:lc},{left:'130px',color:internetColor},{left:'160px',color:lc}];
+    let options,gTitle=gs.title,gBody=gs.body;
+    if(st.step===4&&restarting){gTitle=X('Restarting…','جارٍ إعادة التشغيل…');gBody=X('Lights will go off, then come back. About '+st.restart+' s left.','ستنطفئ الأضواء ثم تعود. تبقّى نحو '+st.restart+' ثانية.');options=[];}
+    else if(st.step===4&&st.restarted){gTitle=sk==='network'?X('Router is back — internet light still amber','عاد الراوتر — ضوء الإنترنت لا يزال برتقاليًا'):X('Router is back online','عاد الراوتر للاتصال');gBody=sk==='network'?X('Your equipment is working. The fault is upstream, as the line test showed.','أجهزتك تعمل. العطل خارج المنزل كما أظهر اختبار الخط.'):X('Internet light is solid white. Let’s re-test your connection.','ضوء الإنترنت أبيض ثابت. لنُعِد اختبار اتصالك.');options=[{label:X('Run re-test','إعادة الاختبار'),onClick:nav.outcome,bg:this.BP,fg:'#FFFFFF',border:'none'}];}
+    else options=gs.opts.map(([l,a],i)=>({label:l,onClick:()=>{if(a==='restart')this.startRestart();else this.setState(s=>({step:s.step+1}));},bg:i===0?this.BP:'#FFFFFF',fg:i===0?'#FFFFFF':'#0B2545',border:i===0?'none':'1.5px solid #C9D3E3'}));
+    const hl=HL[gs.hl];
+    const guide={counter:X('CHECK '+(Math.min(st.step,4)+1)+' OF 5','الفحص '+(Math.min(st.step,4)+1)+' من 5'),title:gTitle,body:gBody,options,hl:{left:hl.left,top:hl.top,w:hl.w,h:hl.h,label:hl[lang]},lights,recog:st.recog,dots:steps.map((_,i)=>({bg:i<st.step||(i===4&&st.restarted)?(this.props.accentColor||'#F28C28'):(i===st.step?'rgba(242,140,40,.55)':'rgba(255,255,255,.2)')}))};
+    // outcome
+    const showCase=sk==='network'||st.escalated;const G='#1F8A57',Rd='#C0313A';
+    const SR=X('Speed at router','السرعة عند الراوتر');
+    const after=sk==='device'?[{label:X('Laptop link','اتصال الحاسوب'),value:'866 Mbps · 5 GHz',color:G},{label:X('Laptop speed test','اختبار سرعة الحاسوب'),value:'402 Mbps',color:G},{label:X('This phone, same room','هذا الهاتف، نفس الغرفة'),value:mbps(samples[0].cur,S.wired)+' Mbps',color:G},{label:SR,value:S.wired+' Mbps',color:G}]
+      :sk==='wifi'?samples.map(s=>({label:s.name,value:s.rec+' dBm · '+mbps(s.rec,S.wired)+' Mbps',color:sigColorLight(s.rec)}))
+      :[{label:SR,value:(sk==='router'?471:S.wired)+' Mbps',color:sk==='router'?G:Rd},{label:X('Latency','زمن الاستجابة'),value:(sk==='router'?13:S.lat)+' ms',color:sk==='router'?G:Rd},{label:X('Packet loss','فقد الحزم'),value:(sk==='router'?0:S.loss)+'%',color:sk==='router'?G:Rd},{label:X('Router restarts (since)','إعادات التشغيل (منذ الإصلاح)'),value:'0',color:G}];
+    const O={
+      wifi:{icon:'✓',iconBg:G,title:X('Fixed — strong Wi‑Fi in every room.','تم الإصلاح — Wi‑Fi قوي في كل الغرف.'),body:X('You moved the router to the hallway shelf. Here’s what this phone measured in each room afterwards.','نقلت الراوتر إلى رف الممر. هذا ما قاسه هذا الهاتف في كل غرفة بعد ذلك.'),tableTitle:X('Re-test after moving','إعادة الاختبار بعد النقل')},
+      device:{icon:'✓',iconBg:G,title:X('Fixed — your laptop is on 5 GHz now.','تم الإصلاح — الحاسوب الآن على 5 GHz.'),body:X('Your broadband and router were fine. The laptop had joined the slower 2.4 GHz band.','كانت الخدمة والراوتر سليمين. الحاسوب كان متصلًا بنطاق 2.4 GHz الأبطأ.'),tableTitle:X('Re-test on your laptop','إعادة الاختبار على الحاسوب')},
+      router:{icon:'✓',iconBg:G,title:X('Back to full speed.','عادت السرعة الكاملة.'),body:X('Re-seating the cable and restarting fixed it. If it restarts on its own again within 7 days, we’ll send a replacement — no need to call.','إعادة تثبيت الكابل وإعادة التشغيل حلّا المشكلة. إن أعاد التشغيل تلقائيًا خلال 7 أيام فسنرسل بديلًا — دون الحاجة للاتصال.'),tableTitle:X('Re-test after restart','إعادة الاختبار بعد إعادة التشغيل')},
+      network:{icon:'!',iconBg:this.BP,title:X('We’ve opened a case — no technician visit needed.','فتحنا بلاغًا — لا حاجة لزيارة فني.'),body:X('Your router and Wi‑Fi are fine. The fault is at street cabinet 14B, and our engineers can fix it remotely.','الراوتر وWi‑Fi سليمان. العطل في كابينة الشارع 14B ويمكن لمهندسينا إصلاحه عن بُعد.'),tableTitle:X('Re-test after your checks','إعادة الاختبار بعد فحوصاتك')}}[sk];
+    const out={...O,rows:after,showCase,caseLabel:X('Support case ','بلاغ دعم ')+'NL‑48213',caseText:sk==='network'?X('Line fault at cabinet 14B. Remote fix expected by 18:00 today — we’ll text you when it’s done.','عطل في الخط عند الكابينة 14B. الإصلاح عن بُعد متوقع بحلول 18:00 اليوم — سنرسل لك رسالة عند الانتهاء.'):X('An agent has your full diagnostic report and will call you within 2 hours. You won’t need to repeat any checks.','لدى أحد الموظفين تقرير التشخيص الكامل وسيتصل بك خلال ساعتين. لن تحتاج لتكرار أي فحص.'),
+      primaryLabel:X('View treatment report','عرض تقرير المعالجة'),primary:nav.report,secondaryLabel:showCase?X('Talk to an agent now','تحدّث مع موظف الآن'):X('Still having problems? Contact support','ما زالت المشكلة قائمة؟ تواصل مع الدعم'),secondary:()=>this.setState({escalated:true})};
+    if(st.escalated&&sk!=='network'){out.icon='!';out.iconBg=this.BP;out.title=X('Support case opened with your results.','تم فتح بلاغ دعم مرفق بنتائجك.');}
+    // report
+    const avg=k=>Math.round(samples.reduce((a,s)=>a+mbps(s[k],S.wired),0)/samples.length);
+    const LAT=X('Latency','زمن الاستجابة'),PL2=X('Packet loss','فقد الحزم'),WRS=X('Weakest room signal','إشارة أضعف غرفة');
+    const RP={
+      wifi:{title:X('Wi‑Fi now reaches every room.','أصبح Wi‑Fi يصل إلى كل الغرف.'),rows:[[WRS,worst.cur,rs.rec,' dBm','db'],[X('Strong coverage','التغطية القوية'),parseInt(stats('current').s),parseInt(stats('recommended').s),'%','up'],[X('Avg speed across rooms','متوسط السرعة في الغرف'),avg('cur'),avg('rec'),' Mbps','up'],[X('Speed in '+low(worst.name),'السرعة في '+worst.name),mbps(worst.cur,S.wired),mbps(rs.rec,S.wired),' Mbps','up'],[X('Wi‑Fi latency','زمن استجابة Wi‑Fi'),38,12,' ms','down']],key:2,
+        issues:[X('Router in a corner TV cabinet, beside a mirror','الراوتر في خزانة تلفاز بالزاوية بجوار مرآة'),X('Weak signal in '+low(worst.name)+' and kitchen','إشارة ضعيفة في '+worst.name+' والمطبخ')],actions:[X('Scanned 4 rooms with the camera','مسح 4 غرف بالكاميرا'),X('Moved router to the hallway shelf','نقل الراوتر إلى رف الممر'),X('Re-tested in every room','إعادة الاختبار في كل غرفة')],est:false},
+      device:{title:X('Your laptop is up to full speed.','الحاسوب يعمل الآن بالسرعة الكاملة.'),rows:[[X('Laptop Wi‑Fi link','اتصال Wi‑Fi للحاسوب'),54,866,' Mbps','up'],[X('Laptop speed test','اختبار سرعة الحاسوب'),41,402,' Mbps','up'],[X('Laptop latency','زمن استجابة الحاسوب'),31,12,' ms','down'],[X('Signal in that room','الإشارة في تلك الغرفة'),samples[0].cur,samples[0].cur,' dBm','db']],key:1,
+        issues:[X('Laptop joined the slow 2.4 GHz band','الحاسوب اتصل بنطاق 2.4 GHz البطيء'),X('Older Wi‑Fi 4 adapter','محوّل Wi‑Fi 4 قديم')],actions:[X('Checked connected devices through the router','فحص الأجهزة المتصلة عبر الراوتر'),X('Laptop rejoined HubPro‑5G','إعادة اتصال الحاسوب بـ HubPro‑5G'),X('Re-tested on the laptop','إعادة الاختبار على الحاسوب')],est:false},
+      router:{title:X('Router stable and back to full speed.','الراوتر مستقر وعاد للسرعة الكاملة.'),rows:[[SR,62,471,' Mbps','up'],[LAT,48,13,' ms','down'],[PL2,2.1,0,'%','down'],[X('Restarts per day','إعادات التشغيل يوميًا'),9,0,'','down'],[WRS,worst.cur,worst.cur,' dBm','db']],key:0,
+        issues:[X('Router restarting 9 times a day','الراوتر يعيد التشغيل 9 مرات يوميًا'),X('Loose WAN cable','كابل WAN غير مثبت')],actions:[X('Camera-guided cable check','فحص الكابل بإرشاد الكاميرا'),X('WAN cable reseated','إعادة تثبيت كابل WAN'),X('Router restarted and re-tested','إعادة تشغيل الراوتر وإعادة الاختبار')],est:false},
+      network:{title:X('Expected recovery once the street fault is fixed.','التحسن المتوقع بعد إصلاح عطل الشارع.'),rows:[[SR,38,487,' Mbps','up'],[LAT,96,14,' ms','down'],[PL2,6.4,0,'%','down'],[WRS,worst.cur,worst.cur,' dBm','db']],key:0,
+        issues:[X('Line card fault at street cabinet 14B','عطل في بطاقة الخط بكابينة الشارع 14B'),X('Weak Wi‑Fi in 2 rooms (separate, minor)','Wi‑Fi ضعيف في غرفتين (مشكلة بسيطة منفصلة)')],actions:[X('Router check ruled out your equipment','فحص الراوتر استبعد أجهزتك'),X('Case NL‑48213 raised to Network Operations','تصعيد البلاغ NL‑48213 إلى عمليات الشبكة'),X('Remote line card reset scheduled','جدولة إعادة ضبط بطاقة الخط عن بُعد')],est:true}}[sk];
+    const fmt=n=>Number.isInteger(n)?n.toLocaleString('en-GB'):String(n);
+    const rows=RP.rows.map(([metric,b,a,u,dir])=>{
+      let change,better;
+      if(dir==='db'){const d=a-b;change=(d>0?'+':'')+d+' dB';better=d>0;}
+      else if(dir==='up'){const p=b?Math.round((a-b)/b*100):0;change=(p>0?'+':'')+fmt(p)+'%';better=p>0;}
+      else{const p=b?Math.round((b-a)/b*100):0;change=(p>0?'−':'')+p+'%';better=p>0;}
+      if(change==='0 dB'||change==='0%'||change==='+0%')change='—';
+      const norm=v=>dir==='db'?Math.max(4,(v+100)):v;const mx=Math.max(norm(b),norm(a))||1;
+      const k=RP.est&&dir!=='db'?'E':'M';
+      return {metric,before:fmt(b)+u,after:fmt(a)+u,change,changeColor:change==='—'?'#6B7280':(better?G:Rd),bw:Math.round(norm(b)/mx*100)+'%',aw:Math.round(norm(a)/mx*100)+'%',barColor:better?'#3FBE7A':'#B6BFCC',...TAG(k)};});
+    const kr=RP.rows[RP.key];const ov=Math.round((kr[2]-kr[1])/kr[1]*100);
+    const report={chartTitle:X('Before vs after','قبل وبعد'),title:RP.title,rows:rows.map(r=>({...r,tagBg:r.bg,tagFg:r.fg})),issues:RP.issues,actions:RP.actions,overall:'+'+fmt(ov)+'%',overallNote:kr[0]+': '+fmt(kr[1])+kr[3]+' '+ARW+' '+fmt(kr[2])+kr[3],
+      overallTag:RP.est?X('ESTIMATED · AFTER FIX','تقديري · بعد الإصلاح'):TAGT[lang].M,overallTagBg:RP.est?'#FFF1D6':'#E3ECFD',overallTagFg:RP.est?'#8A5A00':'#1D4FBF',
+      footnote:RP.est?X('“After” values are estimates until the street fault is repaired. We’ll re-measure automatically and update this report.','قيم «بعد» تقديرية حتى إصلاح عطل الشارع. سنعيد القياس تلقائيًا ونحدّث هذا التقرير.'):X('Before = measured at the start of this check. After = measured after the fix. We’ll re-check automatically in 7 days.','قبل = مُقاس في بداية هذا الفحص. بعد = مُقاس بعد الإصلاح. سنعيد الفحص تلقائيًا خلال 7 أيام.'),
+      toast:st.toast,share:async()=>{const txt=RP.title+' '+X('Overall improvement','التحسن الإجمالي')+' +'+ov+'%. '+rows.map(r=>r.metric+': '+r.before+' '+ARW+' '+r.after).join('; ');
+        try{if(navigator.share){await navigator.share({title:X('Broadband treatment report','تقرير معالجة النطاق العريض'),text:txt});return;}await navigator.clipboard.writeText(txt);this.setState({toast:X('Report summary copied','تم نسخ ملخص التقرير')});}catch(e){this.setState({toast:X('Report saved to your account','تم حفظ التقرير في حسابك')});}}};
+    // identify
+    const digits=st.phone.replace(/[^0-9]/g,'');const found=st.lookup==='found';
+    const ident={border:st.phoneErr?'#D93B42':(found?G:'#C9D3E3'),err:st.phoneErr?X('Enter the 11-digit mobile number on your broadband account.','أدخل رقم الجوال المسجّل في حسابك (11 رقمًا).'):'',showDemo:!found&&!st.phone,loading:st.lookup==='loading',found,
+      useDemo:()=>this.setState({phone:'07700 900123',phoneErr:''}),
+      rows:[[X('Account holder','صاحب الحساب'),'J. Patel'],[X('Service address','عنوان الخدمة'),'14 Elm Road, •• 4AB'],[X('Plan','الباقة'),X('Fibre ','ألياف ')+S.plan+' · FTTP'],[X('Router','الراوتر'),'Hub Pro 6 · '+(sk==='router'?X('unstable','غير مستقر'):X('online','متصل')),sk==='router'],[X('Street cabinet','كابينة الشارع'),'14B'],[X('Faults in your area','أعطال في منطقتك'),sk==='network'?X('1 open fault','عطل واحد مفتوح'):X('None','لا يوجد'),sk==='network']].map(r=>({label:r[0],value:r[1],color:r[2]?Rd:'#1F2937'})),
+      primaryLabel:found?X('Continue','متابعة'):(st.lookup==='loading'?X('Searching…','جارٍ البحث…'):X('Find my service','ابحث عن خدمتي')),primaryBg:found||(digits.length>=10)?this.BP:'#9AA4B5',
+      primary:()=>{if(found){this.setState({account:true});this.go(this.state.cam==='none'?'permission':this.scanTarget());return;}
+        if(this.state.lookup==='loading')return;const d=this.state.phone.replace(/[^0-9]/g,'');
+        if(d.length<10||d.length>12){this.setState({phoneErr:true});return;}
+        this.setState({lookup:'loading'});clearTimeout(this.lookTo);this.lookTo=setTimeout(()=>this.setState({lookup:'found'}),900);},
+      reset:()=>this.setState({phone:'',lookup:'idle',account:false})};
+    // assistant
+    this.ctx={screen:scr,samples,guideTitle:gTitle,guideBody:gBody,summary:'Scenario: '+S.label+'. Wired speed at router '+S.wired+'/'+S.plan+' Mbps, latency '+S.lat+' ms, loss '+S.loss+'%. Room signal (measured): '+samples.map(s=>s.id+' '+s.cur+' dBm').join(', ')+'. '+S.area.en+'.'};
+    const chat={x:st.avaPos.x+'px',y:st.avaPos.y+'px',down:this.avaDown,move:this.avaMove,up:this.avaUp,fab:!st.chatOpen&&scr!=='lang',isOpen:st.chatOpen,typing:st.typing,input:st.chatInput,placeholder:st.listening?X('Listening…','أستمع…'):X('Describe the problem…','صف المشكلة…'),
+      micBg:st.listening?'#D93B42':'#0B2545',voiceLabel:st.voice?X('Voice replies on','الرد الصوتي مفعّل'):X('Voice replies off','الرد الصوتي متوقف'),voiceBg:st.voice?'#E3F6F4':'transparent',voiceBorder:st.voice?this.BP:'#C9D3E3',
+      open:()=>this.openChat(),close:()=>{this.setState({chatOpen:false});try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}},
+      toggleVoice:()=>this.setState(s=>({voice:!s.voice})),mic:()=>this.toggleMic(),
+      onInput:e=>this.setState({chatInput:e.target.value}),onKey:e=>{if(e.key==='Enter')this.sendMsg(this.state.chatInput);},send:()=>this.sendMsg(this.state.chatInput),
+      msgs:st.msgs.map(m=>({text:m.text,align:m.from==='me'?'flex-end':'flex-start',bg:m.from==='me'?'#0B2545':'#EEF2F8',fg:m.from==='me'?'#FFFFFF':'#1F2937',
+        chips:(m.chips||[]).map(c=>({label:c.label||c.say,onClick:()=>this.chipAct(c),bg:c.go?this.BP:'#E3F6F4',fg:c.go?'#FFFFFF':'#006670',border:c.go?this.BP:'#A8E2DC'}))}))};
+    const camErr=st.camErr?X('Camera unavailable ('+st.camErr+') — continuing with the demo room.','الكاميرا غير متاحة ('+st.camErr+') — نتابع بالغرفة التجريبية.'):'';
+    if(isAr){
+      diag.evidence=diag.evidence.map(e=>({...e,text:iso(e.text)}));diag.recs=diag.recs.map(r=>({...r,body:iso(r.body)}));
+      impact.rows=impact.rows.map(r=>({...r,text:iso(r.text)}));impact.split=impact.split.map(s=>({...s,note:iso(s.note)}));impact.etaNote=iso(impact.etaNote);
+      arV.sub=iso(arV.sub);out.body=iso(out.body);out.caseText=iso(out.caseText);report.overallNote=iso(report.overallNote);
+      chat.msgs=chat.msgs.map(m=>({...m,text:iso(m.text)}));guide.body=iso(guide.body);
+    }
+    return {
+      fit:{aside:st.narrow?'none':'flex',s:st.fitS||1,mb:(-866*(1-(st.fitS||1)))+'px',mx:(-206*(1-(st.fitS||1)))+'px'},brand,t,dir:isAr?'rtl':'ltr',lang,is,nav,flow,scenarioLabel:S.label,
+      pickEn:()=>this.setLang('en'),pickAr:()=>this.setLang('ar'),switchLang:()=>this.setLang(isAr?'en':'ar'),
+      statusColor:'#FFFFFF',homeBar:'#0B2545',headerBg:this.BP,headerLine:(this.props.accentColor||'#F28C28'),
+      camDisplay:camScreen&&st.cam==='live'?'block':'none',demoDisplay:camScreen&&st.cam!=='live'?'block':'none',
+      setThreeEl:this.setThreeEl,setVideoEl:this.setVideoEl,setChatEl:this.setChatEl,
+      mapCurrentBg:url('current')?'url('+url('current')+')':'none',
+      routerLine:st.account?X('HUB PRO 6 · '+S.plan+' MBPS PLAN','HUB PRO 6 · باقة '+S.plan+' ميغابت'):'',
+      requestCam:()=>this.requestCam(),useDemo:()=>{this.setState({cam:'demo'});this.go(this.scanTarget());},camErr,
+      sweep:React.createElement('div',{style:{position:'absolute',left:0,right:0,height:3,background:'linear-gradient(90deg,transparent,{{ brand.accent }},transparent)',boxShadow:'0 0 18px {{ brand.accent }}',animation:'sweep 2.2s ease-in-out infinite alternate',opacity:done?0:0.9}}),
+      scan,measureRows,browserNet,measureTitle:mDone?X('Connection measured','تم قياس الاتصال'):X('Measuring your connection…','جارٍ قياس اتصالك…'),
+      measureBtnBg:mDone?this.BP:'#9AA4B5',measureNext:()=>{if(this.state.mStep>=8)this.go('ar');},
+      ar:arV,xrArText,places,modelStats,modelRings,mdash,tabs,modelNote,modelWeakColor,threeMsg:st.threeMsg?TM[st.threeMsg]:'',enterVR:()=>this.enterVR(),
+      diag,impact,guide,out,chat,report,ident,
+      phone:st.phone,onPhone:e=>this.setState({phone:e.target.value.replace(/[^0-9 +]/g,'').slice(0,16),phoneErr:'',lookup:'idle'}),
+      startRoom:()=>{this.setState({mode:'room'});this.go(!this.state.account?'identify':this.state.cam==='none'?'permission':'scan');},
+      startDevice:()=>{this.setState({mode:'device'});this.go(!this.state.account?'identify':this.state.cam==='none'?'permission':'guide');},
+      startRoomCam:()=>{this.setState({mode:'room'});this.go('scan');},
+      startDeviceCam:()=>{this.setState({mode:'device'});this.go('guide');},
+      modeRoomBg:scr==='scan'?this.BP:'transparent',modeDeviceBg:scr==='guide'?this.BP:'transparent',modeRoomFg:scr==='scan'?'#FFFFFF':'#0B2545',modeDeviceFg:scr==='guide'?'#FFFFFF':'#0B2545',isArLogo:isAr,isEnLogo:!isAr};
+  }
+}
+</script>
+</body>
+</html>

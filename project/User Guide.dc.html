@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script src="./doc-page.js"></script>
+<style>
+body{margin:0;font-family:'Tajawal',system-ui,sans-serif;color:#1F2937;-webkit-font-smoothing:antialiased}
+a{color:#00808C}a:hover{color:#0D2B36}
+doc-page:not(:defined){visibility:hidden}
+</style>
+</helmet>
+<doc-page margin="0.75in">
+  <div slot="footer" style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid #E5E7EB;font-size:10pt;color:#6B7280"><span>Home Wi‑Fi Check — User guide</span><span>October 2026</span></div>
+
+  <div style="font:700 10pt 'JetBrains Mono',monospace;letter-spacing:.08em;color:#00808C">USER GUIDE</div>
+  <h1 style="margin:8px 0 10px;font-size:30pt;line-height:1.1;font-weight:800;color:#0D2B36">Home Wi‑Fi Check</h1>
+  <p style="margin:0 0 22px;font-size:13.5pt;line-height:1.55;color:#4B5563">Find out why your internet is slow, see your Wi‑Fi coverage in AR and 3D, and fix it yourself — or hand a complete report to support. Everything runs in your phone’s browser; there’s no app to install.</p>
+
+  <div style="break-inside:avoid;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:26px">
+    <div style="padding:14px;border-radius:12px;background:#F5F7FA;border:1px solid #E5E7EB"><div style="font-size:11pt;font-weight:800;color:#0D2B36">About 4 minutes</div><div style="font-size:10.5pt;line-height:1.45;color:#4B5563;margin-top:4px">for a full check of four rooms</div></div>
+    <div style="padding:14px;border-radius:12px;background:#F5F7FA;border:1px solid #E5E7EB"><div style="font-size:11pt;font-weight:800;color:#0D2B36">English or العربية</div><div style="font-size:10.5pt;line-height:1.45;color:#4B5563;margin-top:4px">screens, assistant, voice and reports</div></div>
+    <div style="padding:14px;border-radius:12px;background:#F5F7FA;border:1px solid #E5E7EB"><div style="font-size:11pt;font-weight:800;color:#0D2B36">Private by design</div><div style="font-size:10.5pt;line-height:1.45;color:#4B5563;margin-top:4px">camera video stays on your phone</div></div>
+  </div>
+
+  <h2 style="font-size:17pt;color:#0D2B36;margin:0 0 8px">Before you start</h2>
+  <ul style="margin:0 0 20px;padding-inline-start:20px;font-size:12pt;line-height:1.65">
+    <li>A smartphone with a recent browser (Chrome, Safari, Edge or Samsung Internet).</li>
+    <li>The mobile number linked to your broadband account.</li>
+    <li>Access to your router — you’ll point the camera at its lights and cables.</li>
+    <li>Wi‑Fi turned on, and your phone connected to your home network.</li>
+  </ul>
+
+  <div style="break-inside:avoid;padding:14px 16px;border-radius:12px;background:#E3ECFD;color:#1D3A7A;font-size:11.5pt;line-height:1.55;margin-bottom:26px"><b>Good to know:</b> the camera maps your rooms and spots obstacles, but it can’t measure Wi‑Fi. Signal and speed come from your router, our network and your phone. Every number in the app is labelled so you know where it came from.</div>
+
+  <h2 style="font-size:17pt;color:#0D2B36;margin:0 0 8px">How to read the labels</h2>
+  <table style="width:100%;border-collapse:collapse;font-size:11.5pt;line-height:1.5;margin-bottom:26px">
+    <thead><tr style="text-align:start;color:#6B7280;font-size:10pt"><th style="text-align:start;padding:8px 10px;border-bottom:1px solid #D1D5DB">Label</th><th style="text-align:start;padding:8px 10px;border-bottom:1px solid #D1D5DB">Meaning</th></tr></thead>
+    <tbody>
+      <tr><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB"><span style="font:700 9pt 'JetBrains Mono',monospace;padding:3px 7px;border-radius:5px;background:#E3ECFD;color:#1D4FBF">MEASURED</span></td><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB">A real reading from your router, a line test or your phone.</td></tr>
+      <tr><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB"><span style="font:700 9pt 'JetBrains Mono',monospace;padding:3px 7px;border-radius:5px;background:#FFF1D6;color:#8A5A00">ESTIMATED</span></td><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB">Calculated from measured points — coverage maps and before/after predictions.</td></tr>
+      <tr><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB"><span style="font:700 9pt 'JetBrains Mono',monospace;padding:3px 7px;border-radius:5px;background:#E6E9F0;color:#0D2B36">AI</span></td><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB">Something the AI detected (an object on camera) or concluded (a likely cause).</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="font-size:17pt;color:#0D2B36;margin:0 0 4px;break-before:page">Step by step</h2>
+  <p style="margin:0 0 16px;font-size:12pt;line-height:1.6;color:#4B5563">The app walks you through each step. You can go back at any time.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">1 · Choose your language</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65">Tap <b>English</b> or <b>العربية</b>. Arabic reads right to left throughout. Your choice applies everywhere — screens, the Ava assistant, voice, AR guidance and reports. To switch later, tap the language button at the top of the start screen.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">2 · Choose what to scan</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65"><b>Scan a room</b> checks Wi‑Fi coverage and dead zones. <b>Scan a device</b> takes you straight to a camera-guided check of your router’s lights and cables. You can switch between the two inside the camera view with the <b>Room / Device</b> toggle.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">3 · Find your service</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65">Enter the mobile number on your broadband account and tap <b>Find my service</b>. Check the details shown — plan, router, street cabinet and any faults in your area — then tap <b>Continue</b>. If it isn’t you, tap <b>Not me</b> and try another number.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">4 · Allow the camera</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65">Tap <b>Allow camera</b> and accept your browser’s prompt. Video is processed on your phone and never saved. If you’d rather not, choose <b>Use a demo room instead</b>.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">5 · Scan each room</h3>
+  <p style="margin:0 0 8px;font-size:12pt;line-height:1.65">Walk slowly and sweep the walls, then the floor. Boxes appear around things that affect Wi‑Fi, coloured by impact. Your phone also records the signal in each room. When the bar is full, tap <b>Next room</b>; after the last room, tap <b>Finish scan</b>.</p>
+  <ul style="margin:0;padding-inline-start:20px;font-size:12pt;line-height:1.65">
+    <li><b style="color:#C0313A">Red</b> — high impact: metal, brick, cabinets around the router.</li>
+    <li><b style="color:#9A6B00">Yellow</b> — medium: mirrors, wardrobes, microwaves.</li>
+    <li><b style="color:#6B7280">Grey</b> — low: sofas, plaster walls.</li>
+  </ul>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">6 · Measure your connection</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65">The app checks your router status, wired speed at the router, latency, packet loss, connected devices and network faults in your area. Values shown in red need attention. When all rows are done, tap <b>See coverage in AR</b>.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">7 · See coverage in AR</h3>
+  <p style="margin:0 0 8px;font-size:12pt;line-height:1.65">A coverage map is laid over your camera view. Switch between <b>Current</b> and <b>Recommended</b> to compare. The orange dot is your router; the dashed ring is a better spot.</p>
+  <div style="break-inside:avoid;display:flex;gap:16px;font-size:11.5pt;margin-bottom:4px">
+    <span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;border-radius:4px;background:#3FBE7A"></span>Strong</span>
+    <span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;border-radius:4px;background:#F0C448"></span>Moderate</span>
+    <span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;border-radius:4px;background:#E25054"></span>Weak or dead zone</span>
+  </div>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">8 · Explore your home in 3D or VR</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65">Drag to look around; scroll or pinch to zoom. Compare <b>Current</b>, <b>Move router</b> and <b>Add extender</b> to see how much weak area each option removes. Pillars mark the rooms that were actually measured. On a VR headset browser, tap <b>Enter VR</b>; on other devices you stay in 3D mode.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">9 · Read your AI diagnosis</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65">The diagnosis checks four places and marks each one <b>OK</b>, a warning or <b>Problem</b>: <b>Network</b>, <b>Router</b>, <b>Room coverage</b> and <b>Your devices</b>. Below it you’ll see the evidence behind the conclusion and what to do next. Tap <b>See full assessment</b> for more detail.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">10 · Check the network impact</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65">This screen separates problems <b>inside your home</b> from problems <b>outside it</b>. It shows the impact level outside your home (None, Low or High), the cause, the affected services and customers, an estimated fix time, the recommended actions and whether the case has been escalated.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">11 · Follow the guided router check</h3>
+  <p style="margin:0 0 8px;font-size:12pt;line-height:1.65">Point your camera at the router. Once it’s recognised, an orange outline shows what to look at in each check:</p>
+  <ol style="margin:0;padding-inline-start:22px;font-size:12pt;line-height:1.65">
+    <li>Confirm it’s your router.</li>
+    <li>Power light — should be solid white.</li>
+    <li>WAN cable — clicked firmly into the orange WAN port.</li>
+    <li>Internet light — tell the app its colour.</li>
+    <li>Restart — press the power button once; the app watches the lights for you.</li>
+  </ol>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">12 · See your result</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65">If the problem is fixed, you’ll see your re-test results. If it isn’t, or the fault is on our network, a support case opens automatically with your line test, router logs, room map and the checks you’ve completed attached, so you won’t need to repeat anything.</p>
+
+  <h3 style="font-size:13.5pt;color:#0D2B36;margin:18px 0 6px">13 · Your treatment report</h3>
+  <p style="margin:0;font-size:12pt;line-height:1.65">Tap <b>View treatment report</b> to see the before-and-after comparison: signal strength, coverage quality, internet speed and latency, the issues found, the actions taken and your overall improvement. If the fix is still pending, the "after" values are marked <b>ESTIMATED</b>. Tap <b>Share report</b> to send or copy a summary.</p>
+
+  <h2 style="font-size:17pt;color:#0D2B36;margin:28px 0 8px;break-before:page">Ask Ava, your AI assistant</h2>
+  <p style="margin:0 0 10px;font-size:12pt;line-height:1.65">Tap <b>Ask Ava</b> on any screen. Ava understands your problem, asks a few questions and opens the right camera step for you.</p>
+  <ul style="margin:0 0 20px;padding-inline-start:20px;font-size:12pt;line-height:1.65">
+    <li><b>Type</b> your problem, or tap a quick reply such as "Wi‑Fi is slow in some rooms".</li>
+    <li><b>Talk</b> — tap the microphone and speak in English or Arabic.</li>
+    <li><b>Listen</b> — turn on <b>Voice replies</b> to hear Ava’s answers.</li>
+    <li><b>Help with this step</b> — available while scanning, in AR, in 3D and during the router check.</li>
+    <li><b>Move the button</b> — drag Ask Ava anywhere on screen; it stays where you leave it.</li>
+  </ul>
+
+  <h2 style="font-size:17pt;color:#0D2B36;margin:0 0 8px">If something doesn’t work</h2>
+  <table style="width:100%;border-collapse:collapse;font-size:11.5pt;line-height:1.5;margin-bottom:26px">
+    <thead><tr style="color:#6B7280;font-size:10pt"><th style="text-align:start;padding:8px 10px;border-bottom:1px solid #D1D5DB;width:38%">Problem</th><th style="text-align:start;padding:8px 10px;border-bottom:1px solid #D1D5DB">What to do</th></tr></thead>
+    <tbody>
+      <tr><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB;vertical-align:top">Camera won’t start</td><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB">Allow camera access in your browser settings and reload, or continue with the demo room.</td></tr>
+      <tr><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB;vertical-align:top">3D view is blank</td><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB">Check your connection and update your browser. 3D needs WebGL.</td></tr>
+      <tr><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB;vertical-align:top">"Enter VR" says not supported</td><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB">VR needs a headset browser. Standard 3D mode works on every phone.</td></tr>
+      <tr><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB;vertical-align:top">Microphone doesn’t respond</td><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB">Some browsers don’t support voice input. Type to Ava instead.</td></tr>
+      <tr><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB;vertical-align:top">Number not found</td><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB">Use the mobile number registered on your broadband account, with 11 digits.</td></tr>
+      <tr><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB;vertical-align:top">Still not fixed</td><td style="padding:9px 10px;border-bottom:1px solid #E5E7EB">Tap <b>Contact support</b>. Your full report is sent with the case.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="font-size:17pt;color:#0D2B36;margin:0 0 8px">Glossary</h2>
+  <table style="width:100%;border-collapse:collapse;font-size:11.5pt;line-height:1.5">
+    <tbody>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB;width:24%;font-weight:700">dBm</td><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB">Wi‑Fi signal strength. Closer to zero is stronger: −50 is strong, −70 is weak.</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB;font-weight:700">Mbps</td><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB">Internet speed, in megabits per second.</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB;font-weight:700">Latency</td><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB">How long data takes to respond, in milliseconds (ms). Lower is better.</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB;font-weight:700">Packet loss</td><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB">The share of data that never arrives. It should be 0%.</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB;font-weight:700">2.4 / 5 GHz</td><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB">The two Wi‑Fi bands. 5 GHz is faster; 2.4 GHz reaches further but is slower.</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB;font-weight:700">WAN port</td><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB">The router socket that connects to the line from the wall.</td></tr>
+      <tr><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB;font-weight:700">Extender</td><td style="padding:8px 10px;border-bottom:1px solid #E5E7EB">A small device that repeats Wi‑Fi into rooms the router can’t reach.</td></tr>
+    </tbody>
+  </table>
+</doc-page>
+</x-dc>
+</body>
+</html>
